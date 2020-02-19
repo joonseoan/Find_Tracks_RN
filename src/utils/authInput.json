@@ -1,0 +1,17 @@
+[{
+    "label": "EMAIL",
+    "name": "email",
+    "type": "email"
+},{
+    "label": "PASSWORD",
+    "name": "password",
+    "type": "password"
+}, {
+    "label": "CONFIRM PASSWORD",
+    "name": "confirmPassword",
+    "type": "password"
+}, {
+    "label": "ARE YOU OVER 13 YEARS OLD?",
+    "name": "ageCheck",
+    "type": "checkbox"
+}]
