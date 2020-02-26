@@ -1,14 +1,17 @@
 [{
     "label": "EMAIL",
     "name": "email",
+    "placeholder": "abc@abc.com",
     "type": "email"
 },{
     "label": "PASSWORD",
     "name": "password",
+    "placeholder": "xxxx",
     "type": "password"
 }, {
     "label": "CONFIRM PASSWORD",
     "name": "confirmPassword",
+    "placeholder": "xxxx",
     "type": "password"
 }, {
     "label": "ARE YOU OVER 13 YEARS OLD?",

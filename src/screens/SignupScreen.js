@@ -1,50 +1,86 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } 
  from 'react-native-responsive-screen';
+import { Formik } from 'formik';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import authInputs from '../utils/authInput.json';
+import AUTH_INPUTS from '../utils/authInput.json';
+import { authValidationSchema } from '../utils/inputValidation';
+
+const initialValues = {
+    email: '',
+    password: '',
+    confirmPassword: '',
+    ageCheck: false
+}
 
 const SignupScreen = ({ navigation }) => {
 
     const [ isChecked, setIsChecked ] = useState(false)
 
-    const textInput = () => {
+    const textInput = (formikProps, input) => {
+        
+        const { values, setFieldTouched, handleChange } = formikProps;        
+        
+        // console.log(values, input)
         return (
-            <View>
-                <SignupInput />
-            </View>
+            <Fragment>
+                <RoundTextInput
+                    keyboardtype="default"
+                    value={ values[input.name] }
+                    onChangeText={ handleChange(input.name) }
+                    placeholder={ input.placeholder || "" }
+                    onBlur={ () => setFieldTouched(input.name) }
+                    secureTextEntry={ (input.name === "password" ||
+                                       input.name === "confirmPassword") && 
+                                       true 
+                    }
+                />
+            </Fragment>
         );
     }
 
-    const checkBoxInput = () => {
+    const checkBoxInput = formikProps => {
         return (
-            <View>
-                <TouchableOpacity onPress={ () => setIsChecked(!isChecked) }>
-                    <RecCheckBox>
-                        <RecCheckBoxInside isChecked={ isChecked }>
-                        </RecCheckBoxInside>
-                    </RecCheckBox>
-                </TouchableOpacity>
-            </View>
+            <Fragment>
+                <RecCheckBox onPress={ () => setIsChecked(!isChecked) }>                    
+                    <RecCheckBoxInside isChecked={ isChecked } />
+                </RecCheckBox>
+            </Fragment>
         )
     }
 
     const signupInputs = () => {
-        return authInputs.map((input, index) => {
-            return (
-                <InputGroup key={ index } isCheckBox={ input.name }>
-                    <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
-                    { 
-                        input.name !== 'ageCheck' ? 
-                        textInput() :    
-                        checkBoxInput()
-                    }
-                </InputGroup>
-            )
-        })
+        return (
+            <Formik 
+                initialValues={ initialValues }
+                validationSchema={ authValidationSchema }
+                onSubmit={ (values, isSubmitting) => {
+                    console.log('values: ', values)
+                }}
+            >
+                { formikProps => {
+                    const { touched, errors } = formikProps;
+                    return AUTH_INPUTS.map((input, index) => {
+                        return (
+                            <InputGroup key={ index } isCheckBox={ input.name }>
+                                <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
+                                { 
+                                    input.name !== 'ageCheck' ? 
+                                    textInput(formikProps, input) :    
+                                    checkBoxInput(formikProps, input)
+                                }
+                                {(touched[input.name] && errors[input.name]) && (
+                                    <ValidationError>{ errors[input.name] }</ValidationError>
+                                )}
+                            </InputGroup>
+                        )
+                    })
+                }}
+            </Formik>
+        );
     }
 
     return(
@@ -56,45 +92,29 @@ const SignupScreen = ({ navigation }) => {
                 end={[ 0.2, 0.2 ]}
             >   
                 <View
-                    style={ styles.signupTitleGroup }
+                    style={{ ...styles.signupTitleGroup, ...styles.titleShadow }}
                 >          
                     <SignupText>Signup</SignupText>              
                 </View>
             </LinearGradient>
             <LinearGradient 
-                    style={{ ...styles.shadow, ...styles.centerLinearGradient }}
-                    colors={[ '#FFFFFF', '#F0F8FF', '#FAFAD2', '#7FFFD4' ]}
-                    start={[ 0.7, 0.5 ]}
-                    end={[ 0.9, 1 ]}
+                style={{ ...styles.shadow, ...styles.centerLinearGradient }}
+                colors={[ '#FFFFFF', '#F0F8FF', '#FAFAD2', '#7FFFD4' ]}
+                start={[ 0.7, 0.5 ]}
+                end={[ 0.9, 1 ]}
             >   
                 { signupInputs() }                        
             </LinearGradient>              
             <NoLinearGradient>
-                <SignupButton style={ {
-
-
-        shadowOffset: {
-            width: 5,
-            height: 5,
-        },
-        shadowOpacity: 0,
-        shadowRadius: 10,
-        elevation: 2,
-
-                } }>
+                <PageMainButton style={ styles.buttonShadow }>
                     <SignupText role='#FFFFFF'>
                         Impact on future
                     </SignupText>
-                </SignupButton>
+                </PageMainButton>
             </NoLinearGradient>
         </SignupContainer>
     );
 }
-
-
-
-
-
 
 
 const SignupContainer = styled.View`
@@ -118,15 +138,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 30,
         backgroundColor: 'rgba(255, 255, 255, 0.5)',
         alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 2,
-            height: 1,
-        },
-        shadowOpacity: 8,
-        shadowRadius: 10,
-        elevation: 1.5,
+        justifyContent: 'center'
     },
     centerLinearGradient: {
         width: wp('85%'),
@@ -149,10 +161,31 @@ const styles = StyleSheet.create({
         shadowOpacity: 8,
         shadowRadius: 10,
         elevation: 15,
+    },
+    titleShadow: {
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 2,
+            height: 1,
+        },
+        shadowOpacity: 8,
+        shadowRadius: 10,
+        elevation: 1.5
+    },
+    buttonShadow: {
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 0,
+        shadowRadius: 10,
+        elevation: 2,
     }
 });
 
 const InputGroup = styled.View`
+    height: ${hp('12%')};
     flex-direction: ${ 
         props => props.isCheckBox === 'ageCheck' ? 'row' : 'column'
     }
@@ -162,20 +195,34 @@ const InputLabel = styled.Text`
     margin-left: ${
         props => props.isCheckBox === 'ageCheck' ? 0 : wp('2%')
     };
-    margin-bottom: 1px;
+    margin-bottom: 4px;
     text-align-vertical: center;
     text-transform: uppercase;
     font-weight: 700;
     color: #D4AF37;
 `;
 
-const RecCheckBox = styled.View`
+const RoundTextInput = styled.TextInput`
+    width: ${wp('75%')};
+    height: ${hp('5%')};
+    padding-horizontal: ${wp('4%')};
+    background-color: rgba(173, 216, 230, 0.1);
+    border-radius: 15px;
+    border: 3px;
+    border-color: #00BFFF;
+    font-size: ${wp('4%')};
+    color: #2F4F4F; 
+    font-weight: 500;
+`;
+
+const RecCheckBox = styled.TouchableOpacity`
     width: ${wp('5%')};
     height: ${hp('2.5%')};
     margin-left: 7px;
+    margin-bottom: 3px;
     border: solid 2px #00BFFF;
     border-radius: 5px;
-    margin-top: 0.5px;
+    align-self: center;    
     justify-content: center;
     align-items: center;
 `;
@@ -190,17 +237,11 @@ const RecCheckBoxInside = styled.View`
     }
 `;
 
-const SignupInput = styled.TextInput`
-    width: ${wp('75%')};
-    height: ${hp('5%')};
-    padding-horizontal: ${wp('4%')};
-    background-color: rgba(173, 216, 230, 0.1);
-    border-radius: 15px;
-    border: 3px;
-    border-color: #00BFFF;
-    font-size: ${wp('4%')};
-    color: #2F4F4F; 
-    font-weight: 500;
+const ValidationError = styled.Text`
+    color: orangered;
+    align-self: flex-end;
+    margin-top: 4px;
+    padding-right: ${wp('2%')};
 `;
 
 const NoLinearGradient = styled.View`
@@ -209,7 +250,7 @@ const NoLinearGradient = styled.View`
     padding-bottom: ${hp('2%')};  
 `;
 
-const SignupButton = styled.TouchableOpacity`
+const PageMainButton = styled.TouchableOpacity`
     width: ${wp('70%')};
     height: ${hp('5%')};
     
