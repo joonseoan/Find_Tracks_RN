@@ -13,18 +13,20 @@ const initialValues = {
     email: '',
     password: '',
     confirmPassword: '',
-    ageCheck: false
+    ageCheck: undefined
 }
 
 const SignupScreen = ({ navigation }) => {
 
     const [ isChecked, setIsChecked ] = useState(false)
+    
+    const handleCheckBox = (values, name) => {        
+        setIsChecked(!isChecked);
+        values[name] = !isChecked;
+    }
 
     const textInput = (formikProps, input) => {
-        
-        const { values, setFieldTouched, handleChange } = formikProps;        
-        
-        // console.log(values, input)
+        const { values, setFieldTouched, handleChange } = formikProps;                
         return (
             <Fragment>
                 <RoundTextInput
@@ -42,45 +44,52 @@ const SignupScreen = ({ navigation }) => {
         );
     }
 
-    const checkBoxInput = formikProps => {
+    const checkBoxInput = (formikProps, input) => {
+        const { values, setFieldTouched, handleChange } = formikProps;        
         return (
             <Fragment>
-                <RecCheckBox onPress={ () => setIsChecked(!isChecked) }>                    
+                <RecCheckBox 
+                    onPress={ () => handleCheckBox(values, input.name) }
+                    onBlur={ () => setFieldTouched(input.name) }
+                >                    
                     <RecCheckBoxInside isChecked={ isChecked } />
                 </RecCheckBox>
             </Fragment>
         )
     }
 
-    const signupInputs = () => {
+    const submitButton = handleSubmit => {
         return (
-            <Formik 
-                initialValues={ initialValues }
-                validationSchema={ authValidationSchema }
-                onSubmit={ (values, isSubmitting) => {
-                    console.log('values: ', values)
-                }}
+            <PageMainButton 
+                isChecked={ isChecked } 
+                style={ styles.buttonShadow }
+                onPress={ handleSubmit }
             >
-                { formikProps => {
-                    const { touched, errors } = formikProps;
-                    return AUTH_INPUTS.map((input, index) => {
-                        return (
-                            <InputGroup key={ index } isCheckBox={ input.name }>
-                                <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
-                                { 
-                                    input.name !== 'ageCheck' ? 
-                                    textInput(formikProps, input) :    
-                                    checkBoxInput(formikProps, input)
-                                }
-                                {(touched[input.name] && errors[input.name]) && (
-                                    <ValidationError>{ errors[input.name] }</ValidationError>
-                                )}
-                            </InputGroup>
-                        )
-                    })
-                }}
-            </Formik>
+                <SignupText role='#FFFFFF'>
+                    Impact on future
+                </SignupText>
+            </PageMainButton>
         );
+    }
+
+    const signupInputs = formikProps => {
+        const { touched, errors } = formikProps;
+        return AUTH_INPUTS.map((input, index) => {
+            return (
+                <InputGroup key={ index } isCheckBox={ input.name }>
+                    <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
+                    { 
+                        input.name !== 'ageCheck' ? 
+                        textInput(formikProps, input) :    
+                        checkBoxInput(formikProps, input)
+                    }
+                    {(
+                        touched[input.name] && errors[input.name]) && (
+                        <ValidationError isCheckBox={ input.name }>{ errors[input.name] }</ValidationError>
+                    )}
+                </InputGroup>
+            )
+        });
     }
 
     return(
@@ -97,25 +106,34 @@ const SignupScreen = ({ navigation }) => {
                     <SignupText>Signup</SignupText>              
                 </View>
             </LinearGradient>
-            <LinearGradient 
-                style={{ ...styles.shadow, ...styles.centerLinearGradient }}
-                colors={[ '#FFFFFF', '#F0F8FF', '#FAFAD2', '#7FFFD4' ]}
-                start={[ 0.7, 0.5 ]}
-                end={[ 0.9, 1 ]}
-            >   
-                { signupInputs() }                        
-            </LinearGradient>              
-            <NoLinearGradient>
-                <PageMainButton style={ styles.buttonShadow }>
-                    <SignupText role='#FFFFFF'>
-                        Impact on future
-                    </SignupText>
-                </PageMainButton>
-            </NoLinearGradient>
+            
+            <Formik 
+                initialValues={ initialValues }
+                validationSchema={ authValidationSchema }
+                onSubmit={ (values, isSubmitting) => {
+                    console.log('values in Submit: ', values)
+                }}
+            >
+            { formikProps => {
+                const { handleSubmit } = formikProps;
+                return (<Fragment>
+                    <LinearGradient 
+                        style={{ ...styles.shadow, ...styles.centerLinearGradient }}
+                        colors={[ '#FFFFFF', '#F0F8FF', '#FAFAD2', '#7FFFD4' ]}
+                        start={[ 0.7, 0.5 ]}
+                        end={[ 0.9, 1 ]}
+                    >   
+                        { signupInputs(formikProps) }                        
+                    </LinearGradient>              
+                    <NoLinearGradient>
+                        { submitButton(handleSubmit) }
+                    </NoLinearGradient>
+                </Fragment>
+            )}}
+            </Formik>
         </SignupContainer>
     );
 }
-
 
 const SignupContainer = styled.View`
     display: flex;
@@ -149,7 +167,7 @@ const styles = StyleSheet.create({
         // borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
         display: 'flex',
-        justifyContent: 'space-evenly',
+        justifyContent: 'center',
         alignItems: 'center'
     },
     shadow: {
@@ -199,7 +217,7 @@ const InputLabel = styled.Text`
     text-align-vertical: center;
     text-transform: uppercase;
     font-weight: 700;
-    color: #D4AF37;
+    color: ${props => props.isCheckBox === 'ageCheck' ? 'orangered'  : '#D4AF37' };
 `;
 
 const RoundTextInput = styled.TextInput`
@@ -242,18 +260,19 @@ const ValidationError = styled.Text`
     align-self: flex-end;
     margin-top: 4px;
     padding-right: ${wp('2%')};
+    display: ${props =>  props.isCheckBox === 'ageCheck' ? 'none' : 'undefined' }
 `;
 
 const NoLinearGradient = styled.View`
     flex: 1;
     justify-content: flex-end;
-    padding-bottom: ${hp('2%')};  
+    padding-bottom: ${hp('2%')};
 `;
 
 const PageMainButton = styled.TouchableOpacity`
-    width: ${wp('70%')};
+    width: ${wp('70%')};    
     height: ${hp('5%')};
-    
+    display: ${ props => !props.isChecked ? 'none' : 'flex' }; 
     background-color: #00BFFF;
     border-radius: 10px;
     align-items: center;
