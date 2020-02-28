@@ -2,7 +2,47 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="915f0a01-4a29-4640-a20e-26906766b93d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.expo-shared/assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/.expo-shared/assets.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/Achievements.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/Achievements.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/MyPassionGraphIR.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/MyPassionGraphIR.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/TopSkillsGraphIR.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/TopSkillsGraphIR.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/Untitled_Artwork 31.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/Untitled_Artwork 31.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/arrow.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/arrow.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/arrowdown.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/arrowdown.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/arrowup.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/arrowup.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/avata.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/avata.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/bell.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/bell.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/caregiving_hours.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/caregiving_hours.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/celebrate1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/celebrate1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/coin.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/coin.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/connect1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/connect1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/discover1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/discover1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/filled-circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/filled-circle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/filter.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/filter.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/impactResumeTopSkills.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/impactResumeTopSkills.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/impactandgroups.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/impactandgroups.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/logoios.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/logoios.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/logotest.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/logotest.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/profileAchievement.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/profileAchievement.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/profileProgress.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/profileProgress.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/refer.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/refer.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/refer1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/refer1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/sdg_13.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/sdg_13.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/sdg_15.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/sdg_15.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/sdg_3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/sdg_3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/sdg_5.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/sdg_5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/sdgs.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/sdgs.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/search.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/search.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/share.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/share.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/student1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/student1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/student2.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/student2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/student3.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/student3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/track1.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/track1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/tree.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/tree.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/verifyicon.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/verifyicon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/assets/images/zeroHunger.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/assets/images/zeroHunger.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/SignupScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/SignupScreen.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,32 +54,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="170" />
+    <option name="y" value="91" />
+    <option name="width" value="1026" />
+    <option name="height" value="546" />
+  </component>
   <component name="ProjectId" id="1YJuiztzQUTVTBRrVl2PFrvIrEN" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="PackagesPane" />
-      <pane id="AndroidView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="track_client" type="1abcf292:AndroidViewProjectNode" />
-              <item name="track_client" type="e9137016:NonAndroidModuleNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
@@ -67,17 +101,135 @@
     </task>
     <servers />
   </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <layout>
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info id="Project" order="1" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Build Variants" order="3" side_tool="true" />
+      <window_info id="Image Layers" order="4" />
+      <window_info id="Designer" order="5" />
+      <window_info id="Resources Explorer" order="6" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="Logcat" order="1" />
+      <window_info anchor="bottom" id="TODO" order="2" />
+      <window_info anchor="bottom" id="Android Profiler" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="4" />
+      <window_info active="true" anchor="bottom" id="Event Log" order="5" side_tool="true" visible="true" weight="0.44680852" />
+      <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="1" />
+      <window_info anchor="right" id="Theme Preview" order="2" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+    </layout>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android|track_client</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

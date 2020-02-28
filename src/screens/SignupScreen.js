@@ -4,21 +4,37 @@ import styled from 'styled-components';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } 
  from 'react-native-responsive-screen';
 import { Formik } from 'formik';
+// import { graphql } from 'react-apollo';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import AUTH_INPUTS from '../utils/authInput.json';
 import { authValidationSchema } from '../utils/inputValidation';
 
+// const setInitialValues = pageName => {
+//     const initialValues = {
+//         email: '',
+//         password: ''
+//     };
+
+//     if(pageName === 'signup') {
+//         return {
+//             ...initialValues,
+//             confirmPassword: '',
+//             ageCheck: null
+//         }
+//     }
+
+//     return initialValues;
+// }
 const initialValues = {
     email: '',
     password: '',
     confirmPassword: '',
     ageCheck: undefined
-}
+};
+const SignupScreen = props => {
 
-const SignupScreen = ({ navigation }) => {
-
-    const [ isChecked, setIsChecked ] = useState(false)
+    const [ isChecked, setIsChecked ] = useState(false);
     
     const handleCheckBox = (values, name) => {        
         setIsChecked(!isChecked);
@@ -108,7 +124,7 @@ const SignupScreen = ({ navigation }) => {
             </LinearGradient>
             
             <Formik 
-                initialValues={ initialValues }
+                initialValues={  initialValues }
                 validationSchema={ authValidationSchema }
                 onSubmit={ (values, isSubmitting) => {
                     console.log('values in Submit: ', values)
@@ -252,7 +268,7 @@ const RecCheckBoxInside = styled.View`
     border-radius: 3px;
     display: ${
         props => !props.isChecked ? 'none' : 'flex'
-    }
+    };
 `;
 
 const ValidationError = styled.Text`
@@ -260,7 +276,7 @@ const ValidationError = styled.Text`
     align-self: flex-end;
     margin-top: 4px;
     padding-right: ${wp('2%')};
-    display: ${props =>  props.isCheckBox === 'ageCheck' ? 'none' : 'undefined' }
+    display: ${props =>  props.isCheckBox === 'ageCheck' ? 'none' : 'flex' };
 `;
 
 const NoLinearGradient = styled.View`

@@ -1,9 +1,12 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { ApolloProvider } from 'react-apollo';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
+import client from './src/graphql';
 import AccountScreen from './src/screens/AccountScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
@@ -31,4 +34,20 @@ const switchNavigator = createSwitchNavigator({
 
 });
 
-export default createAppContainer(switchNavigator);
+const Stack = createAppContainer(switchNavigator);
+
+const NavRouter = () => {
+  return(
+    <View>
+      <ApolloProvider client={ client }>
+        <NavigationContainer>
+          <Stack />
+        </NavigationContainer>
+      </ApolloProvider>
+    </View>
+  );
+}
+
+export default NavRouter;
+
+// export default createAppContainer(switchNavigator);
