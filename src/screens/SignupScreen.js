@@ -4,38 +4,35 @@ import styled from 'styled-components';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } 
  from 'react-native-responsive-screen';
 import { Formik } from 'formik';
-// import { graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import AUTH_INPUTS from '../utils/authInput.json';
 import { authValidationSchema } from '../utils/inputValidation';
+import createUser from '../graphql/mutations/createUser';
 
-// const setInitialValues = pageName => {
-//     const initialValues = {
-//         email: '',
-//         password: ''
-//     };
+const setInitialValues = pageName => {
+    const initialValues = {
+        email: '',
+        password: ''
+    };
 
-//     if(pageName === 'signup') {
-//         return {
-//             ...initialValues,
-//             confirmPassword: '',
-//             ageCheck: null
-//         }
-//     }
+    if(pageName === 'signup') {
+        return {
+            ...initialValues,
+            confirmPassword: '',
+            ageCheck: null
+        }
+    }
 
-//     return initialValues;
-// }
-const initialValues = {
-    email: '',
-    password: '',
-    confirmPassword: '',
-    ageCheck: undefined
-};
-const SignupScreen = props => {
+    return initialValues;
+}
+
+const SignupScreen = ({ navigation, mutate }) => {
 
     const [ isChecked, setIsChecked ] = useState(false);
-    
+    const [ isLogin, setIsLogin ] = useState(true);
+
     const handleCheckBox = (values, name) => {        
         setIsChecked(!isChecked);
         values[name] = !isChecked;
@@ -61,7 +58,7 @@ const SignupScreen = props => {
     }
 
     const checkBoxInput = (formikProps, input) => {
-        const { values, setFieldTouched, handleChange } = formikProps;        
+        const { values, setFieldTouched } = formikProps;        
         return (
             <Fragment>
                 <RecCheckBox 
@@ -77,12 +74,13 @@ const SignupScreen = props => {
     const submitButton = handleSubmit => {
         return (
             <PageMainButton 
-                isChecked={ isChecked } 
+                isChecked={ isChecked }
+                isLogin={ isLogin } 
                 style={ styles.buttonShadow }
                 onPress={ handleSubmit }
             >
                 <SignupText role='#FFFFFF'>
-                    Impact on future
+                    { isLogin ? 'Login' : 'Impact on future' }
                 </SignupText>
             </PageMainButton>
         );
@@ -91,18 +89,26 @@ const SignupScreen = props => {
     const signupInputs = formikProps => {
         const { touched, errors } = formikProps;
         return AUTH_INPUTS.map((input, index) => {
-            return (
+            return ( 
                 <InputGroup key={ index } isCheckBox={ input.name }>
-                    <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
-                    { 
-                        input.name !== 'ageCheck' ? 
-                        textInput(formikProps, input) :    
-                        checkBoxInput(formikProps, input)
+                    {
+                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
+                        null :  
+                        (<InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>)
                     }
-                    {(
-                        touched[input.name] && errors[input.name]) && (
-                        <ValidationError isCheckBox={ input.name }>{ errors[input.name] }</ValidationError>
-                    )}
+                    { 
+                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
+                        null :
+                        (input.name !== 'ageCheck' ? 
+                        textInput(formikProps, input) :    
+                        checkBoxInput(formikProps, input))
+                    }
+                    {
+                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
+                        null :
+                        (touched[input.name] && errors[input.name]) && (
+                        <ValidationError isCheckBox={ input.name }>{ errors[input.name] }</ValidationError>)
+                    }
                 </InputGroup>
             )
         });
@@ -119,15 +125,16 @@ const SignupScreen = props => {
                 <View
                     style={{ ...styles.signupTitleGroup, ...styles.titleShadow }}
                 >          
-                    <SignupText>Signup</SignupText>              
+                    <SignupText>{isLogin ? 'Signin' : 'Signup' }</SignupText>              
                 </View>
             </LinearGradient>
             
             <Formik 
-                initialValues={  initialValues }
+                initialValues={ setInitialValues(isLogin ? null : 'signup') }
                 validationSchema={ authValidationSchema }
-                onSubmit={ (values, isSubmitting) => {
-                    console.log('values in Submit: ', values)
+                onSubmit={ async (values, setSubmitting) => {
+                    await mutate({ variables: values });
+                    setSubmitting(false);
                 }}
             >
             { formikProps => {
@@ -288,7 +295,7 @@ const NoLinearGradient = styled.View`
 const PageMainButton = styled.TouchableOpacity`
     width: ${wp('70%')};    
     height: ${hp('5%')};
-    display: ${ props => !props.isChecked ? 'none' : 'flex' }; 
+    display: ${ props => (!props.isLogin && !props.isChecked) ? 'none' : 'flex' }; 
     background-color: #00BFFF;
     border-radius: 10px;
     align-items: center;
@@ -302,4 +309,4 @@ const SignupText = styled.Text`
     text-transform: uppercase;
 `;
 
-export default SignupScreen;
+export default graphql(createUser)(SignupScreen);

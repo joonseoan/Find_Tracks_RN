@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { ApolloProvider } from 'react-apollo';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -35,16 +34,13 @@ const switchNavigator = createSwitchNavigator({
 });
 
 const Stack = createAppContainer(switchNavigator);
-
 const NavRouter = () => {
   return(
-    <View>
-      <ApolloProvider client={ client }>
-        <NavigationContainer>
-          <Stack />
-        </NavigationContainer>
-      </ApolloProvider>
-    </View>
+    <ApolloProvider client={ client }>
+      <NavigationContainer>
+        <Stack />
+      </NavigationContainer>
+    </ApolloProvider>
   );
 }
 
