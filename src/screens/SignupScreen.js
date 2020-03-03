@@ -7,31 +7,42 @@ import { Formik } from 'formik';
 import { graphql } from 'react-apollo';
 
 import { LinearGradient } from 'expo-linear-gradient';
-import AUTH_INPUTS from '../utils/authInput.json';
-import { authValidationSchema } from '../utils/inputValidation';
+import authInputs from '../utils/authInput.json';
+import authValidationSchema from '../utils/inputValidation';
 import createUser from '../graphql/mutations/createUser';
-
-const setInitialValues = pageName => {
-    const initialValues = {
-        email: '',
-        password: ''
-    };
-
-    if(pageName === 'signup') {
-        return {
-            ...initialValues,
-            confirmPassword: '',
-            ageCheck: null
-        }
-    }
-
-    return initialValues;
-}
 
 const SignupScreen = ({ navigation, mutate }) => {
 
     const [ isChecked, setIsChecked ] = useState(false);
     const [ isLogin, setIsLogin ] = useState(true);
+
+    const setInitialValues = () => {
+        const initialValues = {
+            email: '',
+            password: ''
+        };
+
+        if(!isLogin) {
+            return {
+                ...initialValues,
+                confirmPassword: '',
+                ageCheck: null
+            }
+        }
+    
+        return initialValues;
+    }
+    
+    const inputKeys = Object.keys(setInitialValues());
+    
+    const AUTH_INPUTS = () => {
+        if(isLogin) {
+            return authInputs.filter(input => inputKeys.indexOf(input.name) > -1); 
+        }
+        else {
+            return authInputs;
+        }
+    } 
 
     const handleCheckBox = (values, name) => {        
         setIsChecked(!isChecked);
@@ -88,24 +99,17 @@ const SignupScreen = ({ navigation, mutate }) => {
 
     const signupInputs = formikProps => {
         const { touched, errors } = formikProps;
-        return AUTH_INPUTS.map((input, index) => {
+        // console.log(AUTH_INPUTS())
+        return AUTH_INPUTS().map((input, index) => {
             return ( 
-                <InputGroup key={ index } isCheckBox={ input.name }>
+                <InputGroup key={ index } isCheckBox={ input.name }>     
+                    <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
                     {
-                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
-                        null :  
-                        (<InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>)
-                    }
-                    { 
-                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
-                        null :
                         (input.name !== 'ageCheck' ? 
                         textInput(formikProps, input) :    
                         checkBoxInput(formikProps, input))
                     }
                     {
-                        isLogin && (input.name === 'ageCheck' || input.name === 'confirmPassword') ? 
-                        null :
                         (touched[input.name] && errors[input.name]) && (
                         <ValidationError isCheckBox={ input.name }>{ errors[input.name] }</ValidationError>)
                     }
@@ -130,15 +134,15 @@ const SignupScreen = ({ navigation, mutate }) => {
             </LinearGradient>
             
             <Formik 
-                initialValues={ setInitialValues(isLogin ? null : 'signup') }
-                validationSchema={ authValidationSchema }
+                initialValues={ setInitialValues() }
+                validationSchema={ authValidationSchema(inputKeys) }
                 onSubmit={ async (values, setSubmitting) => {
                     await mutate({ variables: values });
                     setSubmitting(false);
                 }}
             >
             { formikProps => {
-                const { handleSubmit } = formikProps;
+                const { handleSubmit, handleReset } = formikProps;
                 return (<Fragment>
                     <LinearGradient 
                         style={{ ...styles.shadow, ...styles.centerLinearGradient }}
@@ -147,8 +151,21 @@ const SignupScreen = ({ navigation, mutate }) => {
                         end={[ 0.9, 1 ]}
                     >   
                         { signupInputs(formikProps) }                        
-                    </LinearGradient>              
+                    </LinearGradient>
                     <NoLinearGradient>
+                        <AuthStatusChange>
+                            <AuthStatusChangeStatement>
+                                { isLogin ? "Don't you have an account?" : "Do you have an account?" } 
+                            </AuthStatusChangeStatement>
+                            <TouchableOpacity onPress={() => {
+                                setIsLogin(!isLogin);
+                                handleReset(); 
+                            }}>
+                                <AuthStatusChangeEventText>
+                                    { isLogin ? "Signup" : "Signin" }
+                                </AuthStatusChangeEventText>
+                            </TouchableOpacity>
+                        </AuthStatusChange>
                         { submitButton(handleSubmit) }
                     </NoLinearGradient>
                 </Fragment>
@@ -162,14 +179,17 @@ const SignupContainer = styled.View`
     display: flex;
     flex: 1;
     align-items: center;
+    justify-content: center;
+    margin-top: ${hp('3.2%')}; 
 `;
 
 const styles = StyleSheet.create({
     backgroundLinearGradient: {
         width: wp('100%'),
         height: hp('50%'),
-        paddingTop: hp('2.5%'),
+        paddingTop: hp('4.5%'),
         alignItems: 'center',
+        justifyContent: 'flex-start',
         flex: 1 
     },
     signupTitleGroup: {
@@ -185,7 +205,7 @@ const styles = StyleSheet.create({
         width: wp('85%'),
         height: hp('70%'),
         position: 'absolute',
-        top: hp('10%'),
+        top: hp('12%'),
         zIndex: 1,
         // borderBottomRightRadius: 30,
         borderBottomLeftRadius: 30,
@@ -288,14 +308,36 @@ const ValidationError = styled.Text`
 
 const NoLinearGradient = styled.View`
     flex: 1;
-    justify-content: flex-end;
     padding-bottom: ${hp('2%')};
+    
+    justify-content: flex-end;
+    align-items: center;
+`;
+
+const AuthStatusChange = styled.View`
+    flex-direction: row;
+    position: absolute;
+    bottom: ${hp('9%')};
+    justify-content: center;
+`;
+
+const AuthStatusChangeStatement=styled.Text`
+    color: #000000;
+    font-weight: 700;
+    margin-right: 10px;
+    text-transform: uppercase;
+`;
+
+const AuthStatusChangeEventText=styled.Text`
+    color: #00BFFF;
+    font-weight: 700;
+    text-transform: uppercase;
 `;
 
 const PageMainButton = styled.TouchableOpacity`
     width: ${wp('70%')};    
     height: ${hp('5%')};
-    display: ${ props => (!props.isLogin && !props.isChecked) ? 'none' : 'flex' }; 
+    display: ${ props => (!props.isLogin && !props.isChecked) ? 'none' : 'flex' };
     background-color: #00BFFF;
     border-radius: 10px;
     align-items: center;
@@ -308,5 +350,16 @@ const SignupText = styled.Text`
     color: ${ props => !props.role ? '#483D8B' : props.role };
     text-transform: uppercase;
 `;
+
+// Removing heasers
+// 2)
+SignupScreen.navigationOptions = { headerShown: false };
+
+// 1)
+// SignupScreen.navigationOptions = () => {
+//     return {
+//         header: null
+//     };
+// }
 
 export default graphql(createUser)(SignupScreen);
