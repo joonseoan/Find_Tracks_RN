@@ -4,35 +4,57 @@ import styled from 'styled-components';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } 
  from 'react-native-responsive-screen';
 
-let days = [];
-let months = [];
-let years = [];
 
-for(let i = 1; i <= 31; i++) {
-  days.push(i);
-}
 
-for(let i = 2004; i <= 2020; i++ ){
-  years.push(i);
-}
- 
+import useBirthdayCheck from './src/hooks/stateManager/useBirthDayCheck';
+
 export default () => {
+  
+  const { 
+    birthday, 
+    handleBirthday,
+    years,
+    months,
+    days,
+    monthLastIndex,
+    dayLastIndex
+  } = useBirthdayCheck();
+  
   return (
     <Container>
       <BirthDayDisplay>
-
+        <BirthDayDisplayText>{ `${ birthday.month } ${ birthday.day }, ${ birthday.year }` }</BirthDayDisplayText>
       </BirthDayDisplay>
       <BirthDaySelect>
         <MonthAndDay>
             <MonthGroup>
+              <Title>
+                  <TitleText>Months</TitleText>
+              </Title>
+              <MonthsDisplay>
+              {
+                months.map(month => (
+                  <TouchableOpacity key={ month } onPress={ () => handleBirthday({ name: 'month', value: month }) }>
+                    <MonthList>
+                      
+                      <Text>{ month }</Text>
+                    </MonthList>
+                  </TouchableOpacity>
+                ))
+              }
+              </MonthsDisplay>
+                    
             </MonthGroup>
             <DaysVertical>
+              <View>
+                <Text>Days</Text>
+              </View>
               <FlatList 
                 showsVerticalScrollIndicator={ false }
                 data={ days }
                 keyExtractor={ days => days.toString() }
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={ () => console.log(item) }>
+                    <TouchableOpacity onPress={ () => handleBirthday({ name: 'day', value: item }) }>
                         <View><Text>{ item.toString() }</Text></View>
                     </TouchableOpacity>
                 )}
@@ -41,15 +63,14 @@ export default () => {
          </MonthAndDay>
 
          <YearsGroup>
+           <View><Text>Years</Text></View>
             <FlatList 
                horizontal
                showsHorizontalScrollIndicator={ false }
                data={ years }
                keyExtractor={ years =>  years.toString() }
                renderItem={({ item }) => (
-                   // item has the "id" field for each restaurant's menu
-                   // { id: item.id } ===> setup param value
-                   <TouchableOpacity onPress={ () => console.log(item) }>
+                   <TouchableOpacity onPress={ () => handleBirthday({ name: 'year', value: item }) }>
                        <View><Text>{ item.toString() }</Text></View>
                    </TouchableOpacity>
                )}
@@ -77,9 +98,16 @@ const Container = styled.View`
 const BirthDayDisplay = styled.View`
   height: ${hp('15%')};
   width: ${wp('80%')};
-  
   border-width: 2px;
   border-color: violet;
+  
+  align-items: center;
+  justify-content: center;
+`;
+
+const BirthDayDisplayText = styled.Text`
+  font-size: ${wp('4.5%')};
+  font-weight: 700;
 `;
 
 const BirthDaySelect = styled.View`
@@ -87,7 +115,6 @@ const BirthDaySelect = styled.View`
   width: ${wp('80%')};
   border-width: 2px;
   border-color: black;
-  
   align-items: center;
 `;
 
@@ -102,18 +129,50 @@ const MonthAndDay = styled.View`
   justify-content: center;
 `;
 
+const Title = styled.View`
+  background-color: grey;
+  align-items: center;
+  margin-bottom: 2.8px;
+`;
+
+const TitleText = styled.Text`
+    color: blue;
+`;
+
+const MonthGroup = styled.View`
+  height: ${hp('27%')}   
+  width: ${wp('65%')};
+  border-width: 2px;
+  border-color: blue;
+
+`;
+
+const MonthsDisplay = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+    
+`;
+
+const MonthList = styled.View`
+  height:${hp('5.5%')};
+  width: ${wp('20%')}; 
+  border-width: 2px;
+  border-color: red;
+  border-radius: 10px;
+  margin-bottom: 2.5px;
+
+  align-items: center;
+  justify-content: center;
+
+`;
+
 const YearsGroup = styled.View`
   flex: 1;
   width: ${wp('80%')};
   border-width: 2px;
   border-color: orange;
-`;
-
-const MonthGroup = styled.View`
-  height: ${hp('28%')};  
-  width: ${wp('65%')};
-  border-width: 2px;
-  border-color: blue;
 `;
 
 const DaysVertical = styled.View`
@@ -129,6 +188,20 @@ const BirthDayConfirm = styled.View`
   border-width: 2px;
   border-color: green;
 `;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
