@@ -19,9 +19,12 @@ export default () => {
     monthLastIndex,
     dayLastIndex
   } = useBirthdayCheck();
+
+  console.log(monthLastIndex)
+  console.log(dayLastIndex)
   
   return (
-    <Container>
+    <Container style={ styles.shadowContainer }>
       <BirthDayDisplay>
         <BirthDayDisplayText>{ `${ birthday.month } ${ birthday.day }, ${ birthday.year }` }</BirthDayDisplayText>
       </BirthDayDisplay>
@@ -33,29 +36,45 @@ export default () => {
               </Title>
               <MonthsDisplay>
               {
-                months.map(month => (
-                  <TouchableOpacity key={ month } onPress={ () => handleBirthday({ name: 'month', value: month }) }>
-                    <MonthList>
-                      
-                      <Text>{ month }</Text>
+                months.map((month, index) => (
+                  <TouchableOpacity 
+                     key={ index } 
+                     disabled={ index > monthLastIndex ? true : false }
+                     onPress={ () => handleBirthday({ name: 'month', value: month }) }
+                  >
+                    <MonthList
+                      isDeactivated = { index > monthLastIndex }
+                      style={  index > monthLastIndex ? undefined : styles.shadow } 
+                    > 
+                      <ButtonText
+                        isDeactivated = { index > monthLastIndex }
+                      >
+                        { month }
+                      </ButtonText>
                     </MonthList>
                   </TouchableOpacity>
                 ))
               }
-              </MonthsDisplay>
-                    
+              </MonthsDisplay>     
             </MonthGroup>
             <DaysVertical>
-              <View>
-                <Text>Days</Text>
-              </View>
+              <Title isDayOrYear="days" >
+                <TitleText>Days</TitleText>
+              </Title>
               <FlatList 
                 showsVerticalScrollIndicator={ false }
                 data={ days }
                 keyExtractor={ days => days.toString() }
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={ () => handleBirthday({ name: 'day', value: item }) }>
-                        <View><Text>{ item.toString() }</Text></View>
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity 
+                      onPress={ () => handleBirthday({ name: 'day', value: item }) }
+                      disabled={ index > dayLastIndex && true }
+                    >
+                        <DayList isDeactivated={ index > dayLastIndex } 
+                                 style={ index > dayLastIndex ? undefined : styles.shadow }
+                        >
+                          <ButtonText isDeactivated={ index > dayLastIndex } >{ item.toString() }</ButtonText>
+                        </DayList>
                     </TouchableOpacity>
                 )}
               />
@@ -63,7 +82,9 @@ export default () => {
          </MonthAndDay>
 
          <YearsGroup>
-           <View><Text>Years</Text></View>
+            <Title isDayOrYear="years">
+             <TitleText>Years</TitleText>
+            </Title>
             <FlatList 
                horizontal
                showsHorizontalScrollIndicator={ false }
@@ -71,7 +92,9 @@ export default () => {
                keyExtractor={ years =>  years.toString() }
                renderItem={({ item }) => (
                    <TouchableOpacity onPress={ () => handleBirthday({ name: 'year', value: item }) }>
-                       <View><Text>{ item.toString() }</Text></View>
+                      <YearList style={ styles.shadow }>
+                         <ButtonText>{ item.toString() }</ButtonText>
+                      </YearList>
                    </TouchableOpacity>
                )}
             />
@@ -79,16 +102,40 @@ export default () => {
       </BirthDaySelect>
       <BirthDayConfirm>
 
+
       </BirthDayConfirm>
-      
     </Container>
   )
 }
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000000',
+    shadowOffset: {
+        width: 5,
+        height: 2,
+    },
+    shadowOpacity: 10,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  shadowContainer: {
+    shadowColor: '#000000',
+    shadowOffset: {
+        width: 5,
+        height: 3,
+    },
+    shadowOpacity: 8,
+    shadowRadius: 10,
+    elevation: 15,
+  }
+});
 
 const Container = styled.View`
   height: ${hp('60%')};
   width: ${wp('80%')};
   margin-top: 30px;
+  background-color: #FFFFFF;
   align-self: center;
   
   display: flex;
@@ -113,16 +160,12 @@ const BirthDayDisplayText = styled.Text`
 const BirthDaySelect = styled.View`
   height: ${hp('35%')};
   width: ${wp('80%')};
-  border-width: 2px;
-  border-color: black;
-  align-items: center;
+  
 `;
 
 const MonthAndDay = styled.View`
   height: ${hp('28%')};
-  width: ${wp('80%')};
-  border-width: 2px;
-  border-color: grey;
+  width: ${wp('80%')}; 
 
   display: flex;
   flex-direction: row;
@@ -130,27 +173,37 @@ const MonthAndDay = styled.View`
 `;
 
 const Title = styled.View`
-  background-color: grey;
+  background-color: ${ props => {
+    if(props.isDayOrYear === "days") {
+      return '#5B8930';
+    }
+    if(props.isDayOrYear === "years") {
+      return "#FFDC00"
+    }
+    return '#35B3FF';
+  }};
+  align-self: stretch;
+
   align-items: center;
-  margin-bottom: 2.8px;
+  margin-bottom: 5px;
 `;
 
 const TitleText = styled.Text`
-    color: blue;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-transform: uppercase;
 `;
 
 const MonthGroup = styled.View`
   height: ${hp('27%')}   
   width: ${wp('65%')};
-  border-width: 2px;
-  border-color: blue;
-
 `;
 
 const MonthsDisplay = styled.View`
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  
   align-items: center;
     
 `;
@@ -158,33 +211,62 @@ const MonthsDisplay = styled.View`
 const MonthList = styled.View`
   height:${hp('5.5%')};
   width: ${wp('20%')}; 
-  border-width: 2px;
-  border-color: red;
-  border-radius: 10px;
+  background-color: #FFFFFF;
+  border-radius: ${ props => props.isDeactivated ? 0 : '10px' } 
   margin-bottom: 2.5px;
+
+  align-items: center;
+  justify-content: center;
+`;
+
+const DayList = styled.View`
+  height:${hp('4.5%')};
+  width: ${wp('9%')}; 
+  background-color: #FFFFFF;
+  margin-bottom: 3px;
+  border-radius: ${ props => props.isDeactivated ? 0 : '20px' };
+
+  align-items: center;
+  justify-content: center;
+`;
+
+const YearList = styled.View`
+  height:${hp('6%')};
+  width: ${wp('12%')};
+
+  background-color: #FFFFFF;
+  border-radius: 15px;
+  margin-right: 5px; 
+  margin-bottom: 5px;
 
   align-items: center;
   justify-content: center;
 
 `;
 
-const YearsGroup = styled.View`
-  flex: 1;
-  width: ${wp('80%')};
-  border-width: 2px;
-  border-color: orange;
+const ButtonText = styled.Text`
+  color: ${ props => props.isDeactivated ? '#D3D3D3' : '#000000' } 
+  font-weight: 500;
 `;
 
 const DaysVertical = styled.View`
   height: ${hp('28%')};  
   flex: 1;
-  border-width: 2px;
-  border-color: green;
+
+  align-items: center;
+`;
+
+const YearsGroup = styled.View`
+  height: ${hp('25%')}; 
+  width: ${wp('80%')};
+
 `;
 
 const BirthDayConfirm = styled.View`
   flex: 1;  
   width: ${wp('80%')};
+
+  margin-top: 20px;
   border-width: 2px;
   border-color: green;
 `;
