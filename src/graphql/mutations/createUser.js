@@ -6,16 +6,19 @@ export default gql`
         $password: String!
         $confirmPassword: String!
         $ageCheck: Boolean!
+        $dob: String!
     ) {
         createUser(data: {
             email: $email
             password: $password
             confirmPassword: $confirmPassword
             ageCheck: $ageCheck
+            dob: $dob
         }) {
             id
             email
             token
+            dob
         }
     }
 `;

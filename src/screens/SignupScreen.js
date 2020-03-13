@@ -5,83 +5,22 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp }
  from 'react-native-responsive-screen';
 import { Formik } from 'formik';
 import { graphql } from 'react-apollo';
-
 import { LinearGradient } from 'expo-linear-gradient';
-import authInputs from '../utils/authInput.json';
-import authValidationSchema from '../utils/inputValidation';
+
+import useAuth from '../hooks/stateManager/auth/useAuth';
 import createUser from '../graphql/mutations/createUser';
 
 const SignupScreen = ({ navigation, mutate }) => {
 
-    const [ isChecked, setIsChecked ] = useState(false);
-    const [ isLogin, setIsLogin ] = useState(true);
-
-    const setInitialValues = () => {
-        const initialValues = {
-            email: '',
-            password: ''
-        };
-
-        if(!isLogin) {
-            return {
-                ...initialValues,
-                confirmPassword: '',
-                ageCheck: null
-            }
-        }
+    const {
+        InputElements,
+        isChecked, setIsLogin, 
+        isLogin, validationSchema,
+        validationInitialValue,
+        authInputList, handleCheckBox,
+        
+    } = useAuth();
     
-        return initialValues;
-    }
-    
-    const inputKeys = Object.keys(setInitialValues());
-    
-    const AUTH_INPUTS = () => {
-        if(isLogin) {
-            return authInputs.filter(input => inputKeys.indexOf(input.name) > -1); 
-        }
-        else {
-            return authInputs;
-        }
-    } 
-
-    const handleCheckBox = (values, name) => {        
-        setIsChecked(!isChecked);
-        values[name] = !isChecked;
-    }
-
-    const textInput = (formikProps, input) => {
-        const { values, setFieldTouched, handleChange } = formikProps;                
-        return (
-            <Fragment>
-                <RoundTextInput
-                    keyboardtype="default"
-                    value={ values[input.name] }
-                    onChangeText={ handleChange(input.name) }
-                    placeholder={ input.placeholder || "" }
-                    onBlur={ () => setFieldTouched(input.name) }
-                    secureTextEntry={ (input.name === "password" ||
-                                       input.name === "confirmPassword") && 
-                                       true 
-                    }
-                />
-            </Fragment>
-        );
-    }
-
-    const checkBoxInput = (formikProps, input) => {
-        const { values, setFieldTouched } = formikProps;        
-        return (
-            <Fragment>
-                <RecCheckBox 
-                    onPress={ () => handleCheckBox(values, input.name) }
-                    onBlur={ () => setFieldTouched(input.name) }
-                >                    
-                    <RecCheckBoxInside isChecked={ isChecked } />
-                </RecCheckBox>
-            </Fragment>
-        )
-    }
-
     const submitButton = handleSubmit => {
         return (
             <PageMainButton 
@@ -100,14 +39,12 @@ const SignupScreen = ({ navigation, mutate }) => {
     const signupInputs = formikProps => {
         const { touched, errors } = formikProps;
         // console.log(AUTH_INPUTS())
-        return AUTH_INPUTS().map((input, index) => {
+        return authInputList().map((input, index) => {
             return ( 
                 <InputGroup key={ index } isCheckBox={ input.name }>     
                     <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
                     {
-                        (input.name !== 'ageCheck' ? 
-                        textInput(formikProps, input) :    
-                        checkBoxInput(formikProps, input))
+                        InputElements(formikProps, input)
                     }
                     {
                         (touched[input.name] && errors[input.name]) && (
@@ -134,8 +71,8 @@ const SignupScreen = ({ navigation, mutate }) => {
             </LinearGradient>
             
             <Formik 
-                initialValues={ setInitialValues() }
-                validationSchema={ authValidationSchema(inputKeys) }
+                initialValues={ validationInitialValue }
+                validationSchema={ validationSchema }
                 onSubmit={ async (values, setSubmitting) => {
                     await mutate({ variables: values });
                     setSubmitting(false);
@@ -261,41 +198,6 @@ const InputLabel = styled.Text`
     text-transform: uppercase;
     font-weight: 700;
     color: ${props => props.isCheckBox === 'ageCheck' ? 'orangered'  : '#D4AF37' };
-`;
-
-const RoundTextInput = styled.TextInput`
-    width: ${wp('75%')};
-    height: ${hp('5%')};
-    padding-horizontal: ${wp('4%')};
-    background-color: rgba(173, 216, 230, 0.1);
-    border-radius: 15px;
-    border: 3px;
-    border-color: #00BFFF;
-    font-size: ${wp('4%')};
-    color: #2F4F4F; 
-    font-weight: 500;
-`;
-
-const RecCheckBox = styled.TouchableOpacity`
-    width: ${wp('5%')};
-    height: ${hp('2.5%')};
-    margin-left: 7px;
-    margin-bottom: 3px;
-    border: solid 2px #00BFFF;
-    border-radius: 5px;
-    align-self: center;    
-    justify-content: center;
-    align-items: center;
-`;
-
-const RecCheckBoxInside = styled.View`
-    width: ${wp('3%')};
-    height: ${hp('1.5%')};
-    background-color: #00BFFF;
-    border-radius: 3px;
-    display: ${
-        props => !props.isChecked ? 'none' : 'flex'
-    };
 `;
 
 const ValidationError = styled.Text`
