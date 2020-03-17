@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 import { 
     widthPercentageToDP as wp, 
     heightPercentageToDP as hp 
@@ -7,49 +6,56 @@ import {
 import styled from 'styled-components';
 
 // OPCAYTY DISABLE
-const CheckBoxInputValidation = ({ formikProps, 
-                                  // contextState, 
-                                    label, name, 
-                                    // setAuthUser,
-                                    widthBetween, birthday }) => {
-
-    const { values, setFieldValue, touched, errors } = formikProps;
+const CheckboxValidation = ({ 
+    formikProps, dobConfirm, setDobConfirm, 
+    // contextState, 
+    label, name, 
+    // setAuthUser,
+    widthBetween, birthday }) => {
+     
+    // const { values, setFieldValue, touched, errors } = formikProps;
     
     return(        
         <CheckBoxContainer>     
-                <CheckBoxGroup 
-                    activeOpacity={0.9}
-                >  
-                    <CheckBoxLabel widthBetween={ widthBetween }>
-                        { label }
-                    </CheckBoxLabel>
-                    <RecCheckBox 
-                        onPress={ () => {
-                            setFieldValue(name, !values[ name ]);
-                            if(name === 'dob_confirm' && !values[name] &&  
-                                (birthday.year !== 'YYYY' || birthday.month !== 'MM' ||
-                                birthday.day !== 'DD')) {
-
-                                    // setAuthUser({
-                                    //     name: 'dob',
-                                    //     value: `${ birthday.month } ${ birthday.day }, ${ birthday.year }`
-                                    // })
-                                }
-                        }}
-                        onBlur={ () => setFieldTouched(name) }
-                    >                    
-                        <RecCheckBoxInside                             
-                            isChecked={ values[ name ] }
-                        />
-                    </RecCheckBox>
-                </CheckBoxGroup>
-                {
-                    errors[ name ] && (
-                    <CheckBoxErrorMessageGroup >
-                        <CheckBoxErrorMessage>{ errors[ name ]}</CheckBoxErrorMessage>
-                    </CheckBoxErrorMessageGroup>
-                    )
-                }
+            <CheckBoxGroup 
+                activeOpacity={0.9}
+            >  
+                <CheckBoxLabel widthBetween={ widthBetween }>
+                    { label }
+                </CheckBoxLabel>
+                <RecCheckBox 
+                    onPress={ () => {
+                        if(name === 'dob') {
+                            setFieldValue(name, !formikProps.values[ name ]);
+                        }
+                        if(name === "dob_confirm" &&  
+                            (birthday.year !== 'YYYY' || birthday.month !== 'MM' ||
+                            birthday.day !== 'DD')) {
+                                setDobConfirm(!dobConfirm);
+                                // setAuthUser({
+                                //     name: 'dob',
+                                //     value: `${ birthday.month } ${ birthday.day }, ${ birthday.year }`
+                                // })
+                            }
+                    }}
+                    onBlur={ () => formikProps.setFieldTouched(name) }
+                >                    
+                    <RecCheckBoxInside                             
+                        isChecked={
+                            name !== "dob_confirm" ?  
+                            formikProps.values[ name ] :
+                            dobConfirm
+                        }
+                    />
+                </RecCheckBox>
+            </CheckBoxGroup>
+            {
+                name !== "dob_confirm" && (formikProps.touched[ name ] && formikProps.errors[ name ]) && (
+                <CheckBoxErrorMessageGroup >
+                    <CheckBoxErrorMessage>{ formikProps.errors[ name ]}</CheckBoxErrorMessage>
+                </CheckBoxErrorMessageGroup>
+                )
+            }
         </CheckBoxContainer>
     );
 }
@@ -112,4 +118,4 @@ const CheckBoxErrorMessage = styled.Text`
     margin-top: 2px;
 `;
 
-export { CheckBoxInputValidation };
+export { CheckboxValidation };

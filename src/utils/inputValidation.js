@@ -18,11 +18,6 @@ export const setInitialValues = isLogin => {
     return initialValues;
 }
 
-export const dobConfirmInitialValue = {
-    dob_confirm: false 
-
-}
-
 const validationElements = {
     email: Yup.string()
         .required('Please, enter your email.')
@@ -34,12 +29,10 @@ const validationElements = {
         .trim('Please remove space.'),
     confirmPassword: Yup.string()
         .required('Please, enter a confirmming password.')
-        .oneOf([ Yup.ref('password'), null ], 'Password must be identical')
+        .oneOf([ Yup.ref('password'), null ], 'Password must be identical.')
         .trim('Please remove space.'),
     dob: Yup.string()
-        .required('Please, enter your birthday'),
-    ageCheck: Yup.bool()
-        .oneOf([true], 'Must confirm your age.'),
+        .required('Please, enter your birthday.'),
 }
 
 const keyFilters = validationKeys => {

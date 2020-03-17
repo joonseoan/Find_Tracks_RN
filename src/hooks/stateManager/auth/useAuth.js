@@ -7,7 +7,7 @@ import AuthRenderManager from './AuthRenderManager';
 
 const useAuth = () => {
 
-    const [ isLogin, setIsLogin ] = useState(true);
+    const [ isLogin, setIsLogin ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
     const [ modalState, setModalState ] = useState(false);
 

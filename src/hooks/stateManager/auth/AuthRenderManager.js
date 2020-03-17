@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
 import { 
     widthPercentageToDP as wp, 
     heightPercentageToDP as hp 
 } from 'react-native-responsive-screen';
 import styled from 'styled-components';
 
-import DobSelect from '../../../components/CalendarSelect/DobSelect';
+import DobSelect from '../../../components/DobSelect/DobSelect';
 
 const AuthRenderManager = ({ formikProps, input, isChecked, 
     modalState, setModalState, handleCheckBox}) => {
@@ -45,7 +44,7 @@ const AuthRenderManager = ({ formikProps, input, isChecked,
                             modalState={ modalState }
                             setModalState={ setModalState }
                             
-                            editable={ name === 'dob' ? false : true }
+                            editable={ false }
                             underlineColorAndroid="transparent"
                         />
                         <DobSelect 

@@ -18,7 +18,6 @@ const SignupScreen = ({ navigation, mutate }) => {
         isLogin, validationSchema,
         validationInitialValue,
         authInputList, handleCheckBox,
-        
     } = useAuth();
     
     const submitButton = handleSubmit => {
