@@ -10,8 +10,7 @@ export const setInitialValues = isLogin => {
         return {
             ...initialValues,
             confirmPassword: '',
-            dob: false,
-            ageCheck: false
+            dob: ''
         }
     }
 

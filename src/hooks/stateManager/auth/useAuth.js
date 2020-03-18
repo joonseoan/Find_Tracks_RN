@@ -7,9 +7,12 @@ import AuthRenderManager from './AuthRenderManager';
 
 const useAuth = () => {
 
+    const [ userInputs, setUserInputs ] = useState({});
     const [ isLogin, setIsLogin ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
     const [ modalState, setModalState ] = useState(false);
+
+    console.log('userInputs: ', userInputs)
 
     const validationInitialValue = setInitialValues(isLogin);
     const inputKeys = Object.keys(validationInitialValue);
@@ -38,6 +41,8 @@ const useAuth = () => {
             handleCheckBox={ handleCheckBox }
             modalState={ modalState }
             setModalState={ setModalState }
+            userInputs={ userInputs }
+            setUserInputs={ setUserInputs }
         />
     );
 
@@ -46,7 +51,7 @@ const useAuth = () => {
         isChecked, setIsLogin, 
         isLogin, inputValidation, validationInitialValue, 
         authInputList, validationSchema,
-        handleCheckBox,
+        handleCheckBox, userInputs, setUserInputs
     };
 }
 

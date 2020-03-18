@@ -7,18 +7,26 @@ import styled from 'styled-components';
 
 import DobSelect from '../../../components/DobSelect/DobSelect';
 
-const AuthRenderManager = ({ formikProps, input, isChecked, 
-    modalState, setModalState, handleCheckBox}) => {
+const AuthRenderManager = ({ 
+    formikProps, input, isChecked, 
+    modalState, setModalState, 
+    handleCheckBox, userInputs, setUserInputs }) => {
 
-    const { values, setFieldTouched, handleChange } = formikProps;
-
+    const { values, setFieldTouched, handleChange, setFieldValue } = formikProps;
+        console.log('vakyes ========> ', values)
     if(input.type !== 'checkbox' && input.type !== 'inputButton') {
         return (
             <Fragment>
                 <RoundTextInput
                     keyboardtype="default"
-                    value={ values[input.name] }
-                    onChangeText={ handleChange(input.name) }
+                    value={ userInputs[ input.name ] }
+                    onChangeText={ text => {
+                        setFieldValue(input.name, text);
+                        setUserInputs({
+                            ...userInputs, 
+                            [ input.name ] : text 
+                        });
+                    }}
                     placeholder={ input.placeholder || "" }
                     onBlur={ () => setFieldTouched(input.name) }
                     secureTextEntry={ (input.name === "password" ||
@@ -37,7 +45,11 @@ const AuthRenderManager = ({ formikProps, input, isChecked,
                     >              
                         <RoundTextInput
                             formikProps={ formikProps }
-                            // contextState={ state }
+                            value={ userInputs[ input.name ] }
+                            handleChangeText={ text => {
+                                setFieldValue(input.name, text);
+                                
+                            }}
                             label={ input.label }
                             name={ input.name }
                             placeholder={ input.placeholder }
@@ -51,8 +63,8 @@ const AuthRenderManager = ({ formikProps, input, isChecked,
                             modalState={  modalState }
                             setModalState={ setModalState }
                             // formikProps={ formikProps }
-                            // contextState={ state }
-                            // setAuthUser={ setAuthUser }
+                            userInputs={ userInputs }
+                            setUserInputs={ setUserInputs }
                         />            
                     </InputBUtton>
                 </Fragment>
