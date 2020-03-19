@@ -6,19 +6,18 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
 import client from './src/graphql';
+import AuthScreen from './src/screens/Auth/AuthScreen';
 import AccountScreen from './src/screens/AccountScreen';
-import SigninScreen from './src/screens/SigninScreen';
-import SignupScreen from './src/screens/SignupScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
+import { Provider as AuthProvider } from './src/contexts/authContext/authContext';
 
 const switchNavigator = createSwitchNavigator({
 
   authFlow: createStackNavigator({
     // First Page
-    Signup: SignupScreen,
-    Signin: SigninScreen
+    Auth: AuthScreen,
   }),
   mainFlow: createBottomTabNavigator({
     // First Button at the BottomNavigation
@@ -36,11 +35,13 @@ const switchNavigator = createSwitchNavigator({
 const Stack = createAppContainer(switchNavigator);
 const NavRouter = () => {
   return(
-    <ApolloProvider client={ client }>
-      <NavigationContainer>
-        <Stack />
-      </NavigationContainer>
-    </ApolloProvider>
+    <AuthProvider>
+      <ApolloProvider client={ client }>
+        <NavigationContainer>
+          <Stack />
+        </NavigationContainer>
+      </ApolloProvider>
+    </AuthProvider>
   );
 }
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import DobCheckManager from './DobRenderManager';
+import DobRenderManager from './DobRenderManager';
 // import inputValidation, { dobConfirmInitialValue } from '../../../utils/inputValidation';
 import dobHandler from './dobHandler';
 import DOBCheck from '../../../services/calendars/dobCheck';
@@ -33,16 +33,19 @@ export default () => {
     }
       
     const DobAailableCheck = (
-      // setAuthUser, 
-      setModalState, modalState) => {
+      userInputs, setUserInputs, 
+      setModalState, modalState
+    ) => {
       return (
-        <DobCheckManager 
-           birthday={ birthday }
-           dobConfirm={ dobConfirm }
-           setDobConfirm={ setDobConfirm }
-           // setAuthUser={ setAuthUser }
-           setModalState={ setModalState }
-           modalState={ modalState }
+        <DobRenderManager
+          userInputs={ userInputs }
+          setUserInputs={ setUserInputs } 
+          birthday={ birthday }
+          dobConfirm={ dobConfirm }
+          setDobConfirm={ setDobConfirm }
+          // setAuthUser={ setAuthUser }
+          setModalState={ setModalState }
+          modalState={ modalState }
         />
       )
     }

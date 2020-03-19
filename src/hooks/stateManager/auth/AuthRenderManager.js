@@ -10,14 +10,17 @@ import DobSelect from '../../../components/DobSelect/DobSelect';
 const AuthRenderManager = ({ 
     formikProps, input, isChecked, 
     modalState, setModalState, 
-    handleCheckBox, userInputs, setUserInputs }) => {
+    handleCheckBox, userInputs, setUserInputs 
+}) => {
 
     const { values, setFieldTouched, handleChange, setFieldValue } = formikProps;
-        console.log('vakyes ========> ', values)
+
     if(input.type !== 'checkbox' && input.type !== 'inputButton') {
         return (
             <Fragment>
                 <RoundTextInput
+                    autoCorrect={ false }
+                    autoCapitalize="none"
                     keyboardtype="default"
                     value={ userInputs[ input.name ] }
                     onChangeText={ text => {
@@ -47,7 +50,7 @@ const AuthRenderManager = ({
                             formikProps={ formikProps }
                             value={ userInputs[ input.name ] }
                             handleChangeText={ text => {
-                                setFieldValue(input.name, text);
+                                setFieldValue(input.name, userInputs.dob);
                                 
                             }}
                             label={ input.label }
@@ -62,7 +65,6 @@ const AuthRenderManager = ({
                         <DobSelect 
                             modalState={  modalState }
                             setModalState={ setModalState }
-                            // formikProps={ formikProps }
                             userInputs={ userInputs }
                             setUserInputs={ setUserInputs }
                         />            
@@ -84,9 +86,7 @@ const AuthRenderManager = ({
             );
         }
     }
-    
 }
-
 
 const RoundTextInput = styled.TextInput`
     width: ${wp('75%')};

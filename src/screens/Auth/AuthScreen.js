@@ -1,14 +1,17 @@
-import React, { Fragment, useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import styled from 'styled-components';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } 
- from 'react-native-responsive-screen';
+import { 
+    widthPercentageToDP as wp, heightPercentageToDP as hp 
+} from 'react-native-responsive-screen';
 import { Formik } from 'formik';
 import { graphql } from 'react-apollo';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import useAuth from '../hooks/stateManager/auth/useAuth';
-import createUser from '../graphql/mutations/createUser';
+import useAuth from '../../hooks/stateManager/auth/useAuth';
+import createUser from '../../graphql/mutations/userSignup';
+import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
+import SubmitButton from './AuthRenderHandler/SubmitButton';
 
 const SignupScreen = ({ navigation, mutate }) => {
 
@@ -17,42 +20,10 @@ const SignupScreen = ({ navigation, mutate }) => {
         isChecked, setIsLogin, 
         isLogin, validationSchema,
         validationInitialValue,
-        authInputList, handleCheckBox,
+        authInputList,
+        userInputs, setUserInputs
     } = useAuth();
     
-    const submitButton = handleSubmit => {
-        return (
-            <PageMainButton 
-                isChecked={ isChecked }
-                isLogin={ isLogin } 
-                style={ styles.buttonShadow }
-                onPress={ handleSubmit }
-            >
-                <SignupText role='#FFFFFF'>
-                    { isLogin ? 'Login' : 'Impact on future' }
-                </SignupText>
-            </PageMainButton>
-        );
-    }
-
-    const signupInputs = formikProps => {
-        const { touched, errors } = formikProps;
-        // console.log(AUTH_INPUTS())
-        return authInputList().map((input, index) => {
-            return ( 
-                <InputGroup key={ index } isCheckBox={ input.name }>     
-                    <InputLabel isCheckBox = { input.name }>{ input.label }</InputLabel>
-                    {
-                        InputElements(formikProps, input)
-                    }
-                    {
-                        (touched[input.name] && errors[input.name]) && (
-                        <ValidationError isCheckBox={ input.name }>{ errors[input.name] }</ValidationError>)
-                    }
-                </InputGroup>
-            )
-        });
-    }
 
     return(
         <SignupContainer>
@@ -65,7 +36,7 @@ const SignupScreen = ({ navigation, mutate }) => {
                 <View
                     style={{ ...styles.signupTitleGroup, ...styles.titleShadow }}
                 >          
-                    <SignupText>{isLogin ? 'Signin' : 'Signup' }</SignupText>              
+                    <AuthText>{isLogin ? 'Signin' : 'Signup' }</AuthText>              
                 </View>
             </LinearGradient>
             
@@ -78,7 +49,10 @@ const SignupScreen = ({ navigation, mutate }) => {
                 }}
             >
             { formikProps => {
-                const { handleSubmit, handleReset } = formikProps;
+                const { handleSubmit, handleReset, values } = formikProps;
+                if(userInputs.dob) {
+                    values['dob'] = userInputs.dob;
+                }
                 return (<Fragment>
                     <LinearGradient 
                         style={{ ...styles.shadow, ...styles.centerLinearGradient }}
@@ -86,7 +60,13 @@ const SignupScreen = ({ navigation, mutate }) => {
                         start={[ 0.7, 0.5 ]}
                         end={[ 0.9, 1 ]}
                     >   
-                        { signupInputs(formikProps) }                        
+                         <AuthRenderHandler 
+                            formikProps={ formikProps }
+                            authInputList={ authInputList }
+                            inputElements={ InputElements }
+                            userInputs={ userInputs }
+                            setUserInputs={ setUserInputs }
+                         />                        
                     </LinearGradient>
                     <NoLinearGradient>
                         <AuthStatusChange>
@@ -102,7 +82,12 @@ const SignupScreen = ({ navigation, mutate }) => {
                                 </AuthStatusChangeEventText>
                             </TouchableOpacity>
                         </AuthStatusChange>
-                        { submitButton(handleSubmit) }
+                            <SubmitButton
+                                handleSubmit={ handleSubmit }
+                                isChecked={ isChecked }
+                                isLogin={ isLogin }
+                                buttonShadow={ styles.buttonShadow }
+                            />
                     </NoLinearGradient>
                 </Fragment>
             )}}
@@ -181,32 +166,6 @@ const styles = StyleSheet.create({
     }
 });
 
-const InputGroup = styled.View`
-    height: ${hp('12%')};
-    flex-direction: ${ 
-        props => props.isCheckBox === 'ageCheck' ? 'row' : 'column'
-    }
-`;
-
-const InputLabel = styled.Text`
-    margin-left: ${
-        props => props.isCheckBox === 'ageCheck' ? 0 : wp('2%')
-    };
-    margin-bottom: 4px;
-    text-align-vertical: center;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: ${props => props.isCheckBox === 'ageCheck' ? 'orangered'  : '#D4AF37' };
-`;
-
-const ValidationError = styled.Text`
-    color: orangered;
-    align-self: flex-end;
-    margin-top: 4px;
-    padding-right: ${wp('2%')};
-    display: ${props =>  props.isCheckBox === 'ageCheck' ? 'none' : 'flex' };
-`;
-
 const NoLinearGradient = styled.View`
     flex: 1;
     padding-bottom: ${hp('2%')};
@@ -235,22 +194,13 @@ const AuthStatusChangeEventText=styled.Text`
     text-transform: uppercase;
 `;
 
-const PageMainButton = styled.TouchableOpacity`
-    width: ${wp('70%')};    
-    height: ${hp('5%')};
-    display: ${ props => (!props.isLogin && !props.isChecked) ? 'none' : 'flex' };
-    background-color: #00BFFF;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-`;
-
-const SignupText = styled.Text`
+const AuthText = styled.Text`
     font-size: ${props => !props.role ? wp('5%') : wp('4%') };
     font-weight: 700;
     color: ${ props => !props.role ? '#483D8B' : props.role };
     text-transform: uppercase;
 `;
+
 
 // Removing heasers
 // 2)

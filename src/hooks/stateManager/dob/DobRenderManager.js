@@ -4,9 +4,11 @@ import styled from 'styled-components';
 
 import { ModalButton, CheckboxValidation } from '../../../components/common';
 
-const DobRenderManager = ({ 
+const DobRenderManager = ({
+    userInputs, setUserInputs, 
     birthday, dobConfirm, setDobConfirm,                  
-    setModalState, modalState }) => {
+    setModalState, modalState,
+ }) => {
 
     if(birthday.invalidMessage && 
         (birthday.day !== 'DD' || 
@@ -27,13 +29,13 @@ const DobRenderManager = ({
             birthday.day !== 'DD' ? (
                 <Fragment>
                     <CheckboxValidation
-                    label="I confirm my birthday above."
-                    name="dob_confirm"
-                    birthday={ birthday }
-                    widthBetween="55%"
-                    dobConfirm={ dobConfirm }
-                    setDobConfirm={ setDobConfirm }
-                />
+                        label="I confirm my birthday above."
+                        name="dob_confirm"
+                        birthday={ birthday }
+                        widthBetween="55%"
+                        dobConfirm={ dobConfirm }
+                        setDobConfirm={ setDobConfirm }
+                    />
                     <DobButtonGroup isChecked={ dobConfirm }>
                         <ModalButton
                             backgroundColor="#00BFFF"
@@ -42,6 +44,10 @@ const DobRenderManager = ({
                                 if(birthday.month !== 'MM' && 
                                     birthday.day !== 'DD' && 
                                     birthday.year !== 'YYYY') {
+                                    setUserInputs({ 
+                                        ...userInputs, 
+                                        dob: `${ birthday.month } ${ birthday.day }, ${ birthday.year }` 
+                                    });
                                     setModalState(!modalState);
                                 }
                             }}

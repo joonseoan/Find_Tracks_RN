@@ -12,8 +12,6 @@ const useAuth = () => {
     const [ isChecked, setIsChecked ] = useState(false);
     const [ modalState, setModalState ] = useState(false);
 
-    console.log('userInputs: ', userInputs)
-
     const validationInitialValue = setInitialValues(isLogin);
     const inputKeys = Object.keys(validationInitialValue);
 
@@ -33,7 +31,11 @@ const useAuth = () => {
         values[name] = !isChecked;
     }
 
-    const InputElements = (formikProps, input) => (
+    const InputElements = (
+            formikProps, input, 
+            userInputs, setUserInputs
+        ) => (
+
         <AuthRenderManager 
             formikProps={ formikProps }
             input={ input }

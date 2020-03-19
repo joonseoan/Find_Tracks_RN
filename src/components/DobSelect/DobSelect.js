@@ -8,7 +8,11 @@ import DobYears from './DobYears';
 import DobMonths from './DobMonths';
 import DobDays from './DobDays';
 
-const DobSelect = ({ modalState, setModalState, authInputOnChange }) => {
+const DobSelect = ({ 
+  modalState, setModalState, 
+  userInputs, setUserInputs 
+}) => {
+
   const {
     DobAailableCheck,
     birthday,
@@ -51,8 +55,9 @@ const DobSelect = ({ modalState, setModalState, authInputOnChange }) => {
         </BirthDaySelect>
         <BirthDayConfirm>
           { DobAailableCheck(
-            // authInputOnChange, 
-            setModalState, modalState) }
+            userInputs, setUserInputs, 
+            setModalState, modalState
+          )}
         </BirthDayConfirm>
       </Container>
     </MidSizeModal>
