@@ -1,12 +1,19 @@
+import * as SecureStore from 'expo-secure-store';
+import { SECURE_STORE_KEY } from 'react-native-dotenv'; 
 import createDataContext from '../createDataContext';
 import apolloClient from '../../graphql';
 import userSignup from '../../graphql/mutations/userSignup';
+import userSignin from '../../graphql/mutations/userSignin';
+import { navigate } from '../../navigationRef';
 
 const authReducer = (state, action) => {
   switch(action.type) {
     case 'SIGNUP':
-      console.log('action.payload: ', action.payload);
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, errorMessage: '' };
+    case 'SIGNIN':
+      return { ...state, ...action.payload, errorMessage: '' };
+    case 'ERROR_MESSAGE':
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }
@@ -21,14 +28,17 @@ const signup = dispatch => {
         variables: userInputs
       })
 
-      if(data) {
+      if(!data) {
         throw new Error('Unable to post your signup data.');
       }
 
-      dispatch({ type: 'SIGNUP', payload: data.createUser });
+      const tokenEncryption = JSON.stringify({ token: data.createUser.token });
+      await SecureStore.setItemAsync(SECURE_STORE_KEY, tokenEncryption);
 
+      dispatch({ type: 'SIGNUP', payload: data.createUser });
+      navigate('TrackList');
     } catch(e) {
-      throw new Error(e);
+      dispatch({ type: 'ERROR_MESSAGE', payload: 'Something is wrong with Signup'});
     }
   }
 }
@@ -36,20 +46,18 @@ const signup = dispatch => {
 const signin = dispatch => {
   return async userInputs => {
     try {
-
       const { data } = await apolloClient.mutate({
-        // mutation: userSignup,
+        mutation: userSignin,
         variables: userInputs
       })
 
-      if(data) {
-        throw new Error('Unable to post your signup data.');
+      if(!data) {
+        throw new Error('Unable to post your login data.');
       }
-
-      dispatch({ type: 'SIGNUP', payload: data.createUser });
-
+      dispatch({ type: 'SIGNIN', payload: data.loginUser });
     } catch(e) {
-      throw new Error(e);
+      dispatch({ type: 'ERROR_MESSAGE', payload: 'Something is wrong with Signin'});
+      throw new Error(e.response.data);
     }
   }
 }
@@ -60,6 +68,6 @@ const signout = dispatch => {
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signup },
-  { isSignedIn: false }
+  { signup, signin },
+  { token: null, errorMessage: '' }
 );

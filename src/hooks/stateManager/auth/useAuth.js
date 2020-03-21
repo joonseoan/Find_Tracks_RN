@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text } from 'react-native';
 
+import { Context as AuthContext } from '../../../contexts/authContext/authContext';
 import authInputs from '../../../utils/authInput.json';
 import inputValidation, { setInitialValues } from '../../../utils/inputValidation';
 import AuthRenderManager from './AuthRenderManager';
@@ -11,6 +12,10 @@ const useAuth = () => {
     const [ isLogin, setIsLogin ] = useState(false);
     const [ isChecked, setIsChecked ] = useState(false);
     const [ modalState, setModalState ] = useState(false);
+
+    const { state, signup, signin } = useContext(AuthContext);
+
+    console.log('state: ', state)
 
     const validationInitialValue = setInitialValues(isLogin);
     const inputKeys = Object.keys(validationInitialValue);
@@ -53,7 +58,8 @@ const useAuth = () => {
         isChecked, setIsLogin, 
         isLogin, inputValidation, validationInitialValue, 
         authInputList, validationSchema,
-        handleCheckBox, userInputs, setUserInputs
+        handleCheckBox, userInputs, setUserInputs,
+        signup, signin, state
     };
 }
 

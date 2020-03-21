@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
 import { 
     widthPercentageToDP as wp, heightPercentageToDP as hp 
@@ -12,6 +12,7 @@ import useAuth from '../../hooks/stateManager/auth/useAuth';
 import createUser from '../../graphql/mutations/userSignup';
 import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
 import SubmitButton from './AuthRenderHandler/SubmitButton';
+import NavLink from '../../components/NavLink';
 
 const SignupScreen = ({ navigation, mutate }) => {
 
@@ -21,7 +22,8 @@ const SignupScreen = ({ navigation, mutate }) => {
         isLogin, validationSchema,
         validationInitialValue,
         authInputList,
-        userInputs, setUserInputs
+        userInputs, setUserInputs,
+        signup, signin, state
     } = useAuth();
     
 
@@ -43,8 +45,14 @@ const SignupScreen = ({ navigation, mutate }) => {
             <Formik 
                 initialValues={ validationInitialValue }
                 validationSchema={ validationSchema }
-                onSubmit={ async (values, setSubmitting) => {
-                    await mutate({ variables: values });
+                onSubmit={ async (values, {setSubmitting}) => {
+                    if(!isLogin) {
+                        console.log('userInputs: -,-->', userInputs)
+                        const { confirmPassword, ...noA } = userInputs;
+                        signup({ ...noA });
+                    } else {
+                        signin(userInputs);
+                    }
                     setSubmitting(false);
                 }}
             >
@@ -69,7 +77,16 @@ const SignupScreen = ({ navigation, mutate }) => {
                          />                        
                     </LinearGradient>
                     <NoLinearGradient>
-                        <AuthStatusChange>
+                        <NavLink
+                            navigation={ navigation }
+                            text={ isLogin ? "Don't you have an account?" : "Do you have an account?" }
+                            routeName={ isLogin ? 'Auth' : 'Auth' } // when separting { isLogin ? 'Signup' : 'Signin'  }
+                            isLogin={ isLogin }
+                            setIsLogin={ setIsLogin }
+                            handleReset={ handleReset }
+                            linkName={ isLogin ? 'Signup' : 'Signin' }
+                        />
+                        {/* {<AuthStatusChange>  
                             <AuthStatusChangeStatement>
                                 { isLogin ? "Don't you have an account?" : "Do you have an account?" } 
                             </AuthStatusChangeStatement>
@@ -81,13 +98,14 @@ const SignupScreen = ({ navigation, mutate }) => {
                                     { isLogin ? "Signup" : "Signin" }
                                 </AuthStatusChangeEventText>
                             </TouchableOpacity>
-                        </AuthStatusChange>
+                        </AuthStatusChange>} */}
                             <SubmitButton
                                 handleSubmit={ handleSubmit }
                                 isChecked={ isChecked }
                                 isLogin={ isLogin }
                                 buttonShadow={ styles.buttonShadow }
                             />
+                            {/* { state.errorMessage ? <Text>{ state.errorMessage }</Text> : null } */}
                     </NoLinearGradient>
                 </Fragment>
             )}}
