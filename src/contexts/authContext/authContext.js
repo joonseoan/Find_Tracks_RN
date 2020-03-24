@@ -12,62 +12,70 @@ const authReducer = (state, action) => {
       return { ...state, ...action.payload, errorMessage: '' };
     case 'SIGNIN':
       return { ...state, ...action.payload, errorMessage: '' };
-    case 'ERROR_MESSAGE':
+    case 'ADD_ERROR_MESSAGE':
       return { ...state, errorMessage: action.payload };
+    case 'CLEAR_ERROR_MESSAGE':
+      return { ...state, errorMessage: '' };
     default:
       return state;
   }
 }
 
-const signup = dispatch => {
-  return async userInputs => {
-    try {
+const clearErrorMessage = dispatch => () => {
+  dispatch({ type: 'CLEAR_ERROR_MESSAGE' });
+}
 
-      const { data } = await apolloClient.mutate({
-        mutation: userSignup,
-        variables: userInputs
-      })
+const signup = dispatch => async userInputs => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: userSignup,
+      variables: userInputs
+    })
 
-      if(!data) {
-        throw new Error('Unable to post your signup data.');
-      }
-
-      const tokenEncryption = JSON.stringify({ token: data.createUser.token });
-      await SecureStore.setItemAsync(SECURE_STORE_KEY, tokenEncryption);
-
-      dispatch({ type: 'SIGNUP', payload: data.createUser });
-      navigate('TrackList');
-    } catch(e) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: 'Something is wrong with Signup'});
+    if(!data) {
+      throw new Error('Unable to post your signup data.');
     }
+
+    const tokenEncryption = JSON.stringify({ token: data.createUser.token });
+    await SecureStore.setItemAsync(SECURE_STORE_KEY, tokenEncryption);
+
+    dispatch({ type: 'SIGNUP', payload: data.createUser });
+    navigate('TrackList');
+  } catch(e) {
+    dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signup'});
   }
 }
 
-const signin = dispatch => {
-  return async userInputs => {
-    try {
-      const { data } = await apolloClient.mutate({
-        mutation: userSignin,
-        variables: userInputs
-      })
+const signin = dispatch => async userInputs => {
+  try {
+    const { data } = await apolloClient.mutate({
+      mutation: userSignin,
+      variables: userInputs
+    })
 
-      if(!data) {
-        throw new Error('Unable to post your login data.');
-      }
-      dispatch({ type: 'SIGNIN', payload: data.loginUser });
-    } catch(e) {
-      dispatch({ type: 'ERROR_MESSAGE', payload: 'Something is wrong with Signin'});
-      throw new Error(e.response.data);
+    if(!data) {
+      throw new Error('Unable to post your login data.');
     }
+
+    const tokenEncryption = JSON.stringify({ token: data.loginUser.token });
+    await SecureStore.setItemAsync(SECURE_STORE_KEY, tokenEncryption);
+    
+    dispatch({ type: 'SIGNIN', payload: data.loginUser });
+    navigate('TrackList');
+  } catch(e) {
+    dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signin'});
+    throw new Error(e.response.data);
   }
 }
 
 const signout = dispatch => {
-  return;
+  return () => {
+    console.log('sign out');
+  };
 }
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signup, signin },
+  { signup, signin, signout, clearErrorMessage },
   { token: null, errorMessage: '' }
 );

@@ -13,9 +13,7 @@ const useAuth = () => {
     const [ isChecked, setIsChecked ] = useState(false);
     const [ modalState, setModalState ] = useState(false);
 
-    const { state, signup, signin } = useContext(AuthContext);
-
-    console.log('state: ', state)
+    const { state, signup, signin, signout, clearErrorMessage } = useContext(AuthContext);
 
     const validationInitialValue = setInitialValues(isLogin);
     const inputKeys = Object.keys(validationInitialValue);
@@ -55,11 +53,13 @@ const useAuth = () => {
 
     return { 
         InputElements,
-        isChecked, setIsLogin, 
+        isChecked, setIsLogin,
         isLogin, inputValidation, validationInitialValue, 
         authInputList, validationSchema,
         handleCheckBox, userInputs, setUserInputs,
-        signup, signin, state
+        signup, signin, signout, state,
+        clearErrorMessage,
+        setIsChecked
     };
 }
 

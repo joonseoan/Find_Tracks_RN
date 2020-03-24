@@ -1,20 +1,39 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import styled from 'styled-components';
 import { 
-    widthPercentageToDP as wp, heightPercentageToDP as hp 
+    widthPercentageToDP as wp, heightPercentageToDP as hp, listenOrientationChange 
 } from 'react-native-responsive-screen';
 import { Formik } from 'formik';
-import { graphql } from 'react-apollo';
 import { LinearGradient } from 'expo-linear-gradient';
+// 2) It is alternative or another way to use navigation.addListener below.
+import { NavigationEvents } from 'react-navigation';
 
 import useAuth from '../../hooks/stateManager/auth/useAuth';
-import createUser from '../../graphql/mutations/userSignup';
 import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
 import SubmitButton from './AuthRenderHandler/SubmitButton';
 import NavLink from '../../components/NavLink';
 
-const SignupScreen = ({ navigation, mutate }) => {
+const AuthScreen = ({ navigation }) => {
+    
+    // 1)
+    // [ Important !!!!]
+    // It should be placed at useAuth btw.
+    // It is only for example
+    
+    // useEffect(() => {
+    //     // whenever navigation passes this "AuthScreen" even though it was rendered arleady,
+    //     // this navigation addListener will be invoked "once" this page's rendering is done
+    //     //      which is "didFocus"
+    //     const listener = navigation.addListener('didFocus', () => {
+    //         // some function
+    //         // getBlogPost()
+    //     });
+        // same as willUnmount()
+        //    return () => {
+        //        listener.remove()
+        //    }
+    // })
 
     const {
         InputElements,
@@ -23,12 +42,25 @@ const SignupScreen = ({ navigation, mutate }) => {
         validationInitialValue,
         authInputList,
         userInputs, setUserInputs,
-        signup, signin, state
+        signup, signin, signout, state,
+        clearErrorMessage,
+        setIsChecked
     } = useAuth();
-    
 
     return(
-        <SignupContainer>
+        <AuthContainer>
+            {/* NOT WORKING IN THE SAME PAGE. */}
+            {/* NavigationEvents can be displayed at anyplace what so ever. */}
+            {/* {<NavigationEvents 
+                // NavigationEvents properties
+                
+                // onWillFocus={ () => { console.log('onWillFocus')}} // It will be invoked at anytime it is about to be reached to this screen (Before)
+                // onDidFocus={ () => { console.log('onDidFocus') }} // It will be invoked at anytime it was just reached to this screen (After)
+                // onWillBlur={ () => { console.log('onWillBlur') }} // It will be invoked at anytime the current screen navigate awaty (when we leave)
+                // onDidBlur={ () => { console.log('onWillBlur') }} // Do not remind it.
+                // onWillBlur={ clearErrorMessage }
+                onWillFocus={ () => clearErrorMessage() }
+            />} */}
             <LinearGradient 
                 style={ styles.backgroundLinearGradient }
                 colors={[ '#FFFFFF', '#7FFFD4', '#F0F8FF', '#00FFFF' ]}
@@ -47,7 +79,6 @@ const SignupScreen = ({ navigation, mutate }) => {
                 validationSchema={ validationSchema }
                 onSubmit={ async (values, {setSubmitting}) => {
                     if(!isLogin) {
-                        console.log('userInputs: -,-->', userInputs)
                         const { confirmPassword, ...noA } = userInputs;
                         signup({ ...noA });
                     } else {
@@ -58,9 +89,11 @@ const SignupScreen = ({ navigation, mutate }) => {
             >
             { formikProps => {
                 const { handleSubmit, handleReset, values } = formikProps;
+                
                 if(userInputs.dob) {
                     values['dob'] = userInputs.dob;
                 }
+
                 return (<Fragment>
                     <LinearGradient 
                         style={{ ...styles.shadow, ...styles.centerLinearGradient }}
@@ -77,6 +110,8 @@ const SignupScreen = ({ navigation, mutate }) => {
                          />                        
                     </LinearGradient>
                     <NoLinearGradient>
+                        { state.errorMessage ? <Text>{ state.errorMessage }</Text> : null }
+                        {/* 2) */}
                         <NavLink
                             navigation={ navigation }
                             text={ isLogin ? "Don't you have an account?" : "Do you have an account?" }
@@ -85,7 +120,11 @@ const SignupScreen = ({ navigation, mutate }) => {
                             setIsLogin={ setIsLogin }
                             handleReset={ handleReset }
                             linkName={ isLogin ? 'Signup' : 'Signin' }
+                            setUserInputs={ setUserInputs }
+                            setIsChecked={ setIsChecked }
+                            clearErrorMessage={ clearErrorMessage }
                         />
+                        {/* 1) */}
                         {/* {<AuthStatusChange>  
                             <AuthStatusChangeStatement>
                                 { isLogin ? "Don't you have an account?" : "Do you have an account?" } 
@@ -105,16 +144,15 @@ const SignupScreen = ({ navigation, mutate }) => {
                                 isLogin={ isLogin }
                                 buttonShadow={ styles.buttonShadow }
                             />
-                            {/* { state.errorMessage ? <Text>{ state.errorMessage }</Text> : null } */}
                     </NoLinearGradient>
                 </Fragment>
             )}}
             </Formik>
-        </SignupContainer>
+        </AuthContainer>
     );
 }
 
-const SignupContainer = styled.View`
+const AuthContainer = styled.View`
     display: flex;
     flex: 1;
     align-items: center;
@@ -192,26 +230,6 @@ const NoLinearGradient = styled.View`
     align-items: center;
 `;
 
-const AuthStatusChange = styled.View`
-    flex-direction: row;
-    position: absolute;
-    bottom: ${hp('9%')};
-    justify-content: center;
-`;
-
-const AuthStatusChangeStatement=styled.Text`
-    color: #000000;
-    font-weight: 700;
-    margin-right: 10px;
-    text-transform: uppercase;
-`;
-
-const AuthStatusChangeEventText=styled.Text`
-    color: #00BFFF;
-    font-weight: 700;
-    text-transform: uppercase;
-`;
-
 const AuthText = styled.Text`
     font-size: ${props => !props.role ? wp('5%') : wp('4%') };
     font-weight: 700;
@@ -222,7 +240,7 @@ const AuthText = styled.Text`
 
 // Removing heasers
 // 2)
-SignupScreen.navigationOptions = { headerShown: false };
+AuthScreen.navigationOptions = { headerShown: false };
 
 // 1)
 // SignupScreen.navigationOptions = () => {
@@ -231,4 +249,4 @@ SignupScreen.navigationOptions = { headerShown: false };
 //     };
 // }
 
-export default graphql(createUser)(SignupScreen);
+export default AuthScreen;

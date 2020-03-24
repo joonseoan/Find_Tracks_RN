@@ -10,9 +10,22 @@ import {
 import { withNavigation } from 'react-navigation';
 
 // still need to have props, navigation
-const NavLink = ({ navigation, text, routeName, isLogin, handleReset, setIsLogin, linkName }) => {
+const NavLink = ({ navigation, text, routeName, isLogin, 
+    handleReset, setIsLogin, linkName, setUserInputs, 
+    setIsChecked, clearErrorMessage }) => {
   return(
     <AuthStatusChange>
+        {/* {<NavigationEvents 
+                // NavigationEvents properties
+                
+                // onWillFocus={ () => { console.log('onWillFocus')}} // It will be invoked at anytime it is about to be reached to this screen (Before)
+                // onDidFocus={ () => { console.log('onDidFocus') }} // It will be invoked at anytime it was just reached to this screen (After)
+                // onWillBlur={ () => { console.log('onWillBlur') }} // It will be invoked at anytime the current screen navigate awaty (when we leave)
+                // onDidBlur={ () => { console.log('onWillBlur') }} // Do not remind it.
+                // onWillBlur={ () => clearErrorMessage() }
+                // onWillFocus={ () => clearErrorMessage() }
+                onDidFocus={ () => clearErrorMessage() }
+         />} */}
         <AuthStatusChangeStatement>
             { text } 
         </AuthStatusChangeStatement>
@@ -20,7 +33,10 @@ const NavLink = ({ navigation, text, routeName, isLogin, handleReset, setIsLogin
             // withNavigation is used to use the one below.
             navigation.navigate(routeName);
             setIsLogin(!isLogin);
-            handleReset(); 
+            setUserInputs({});
+            setIsChecked(false);
+            clearErrorMessage();
+            handleReset();
         }}>
             <AuthStatusChangeEventText>
                 { linkName }

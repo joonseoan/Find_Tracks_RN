@@ -12,7 +12,7 @@ const AuthInputs = ({
   setUserInputs 
 }) => {
 
-  const { values, touched, errors } = formikProps;
+  const { touched, errors } = formikProps;
   
   return authInputList().map((input, index) => {
       return ( 
