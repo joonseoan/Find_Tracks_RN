@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
 import client from './src/graphql';
+import LoadingScreen from './src/screens/LoadingScreen';
 import AuthScreen from './src/screens/Auth/AuthScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
@@ -15,7 +16,7 @@ import { Provider as AuthProvider } from './src/contexts/authContext/authContext
 import { setNavigator } from './src/navigationRef';
 
 const switchNavigator = createSwitchNavigator({
-
+  PageLoading: LoadingScreen, 
   authFlow: createStackNavigator({
     // First Page
     Auth: AuthScreen,

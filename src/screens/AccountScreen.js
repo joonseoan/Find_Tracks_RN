@@ -1,14 +1,24 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-// import styled from 'styled-components';
-// import {widthPercentageToDP as wp, heightPercentageToDP as hp} 
-//  from 'react-native-responsive-screen';
+import React, { useContext } from 'react';
+import { View, Text, Button } from 'react-native';
+import styled from 'styled-components';
+import { SafeAreaView } from 'react-navigation';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} 
+ from 'react-native-responsive-screen';
 
+import { Context as AuthContext } from '../contexts/authContext/authContext';
 const AccountScreen = props => {
+
+    const { signout } = useContext(AuthContext);
+
     return(
-        <View>
+        <SafeAreaView forceInset={{ top: 'always' }}>
             <Text>Account Screen</Text>
-        </View>
+            <Button 
+                title="Sign Out"
+                onPress={ signout } 
+            />    
+        </SafeAreaView>
+        
     )
 }
 

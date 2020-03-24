@@ -12,12 +12,33 @@ const authReducer = (state, action) => {
       return { ...state, ...action.payload, errorMessage: '' };
     case 'SIGNIN':
       return { ...state, ...action.payload, errorMessage: '' };
+    case 'LOCAL_LOGIN':
+      return { ...state, token: action.payload };
+    case 'SIGN_OUT':
+      return { ...state, token: null, errorMessage: '' };
     case 'ADD_ERROR_MESSAGE':
       return { ...state, errorMessage: action.payload };
     case 'CLEAR_ERROR_MESSAGE':
       return { ...state, errorMessage: '' };
     default:
       return state;
+  }
+}
+
+const tryLocalSignIn = dispatch => async () => {
+  try {
+    const storedField = await SecureStore.getItemAsync(SECURE_STORE_KEY);
+    const jsonToken = JSON.parse(storedField);
+    if(jsonToken) {
+      console.log('ddddddddd')
+      dispatch({ type: 'LOCAL_LOGIN', payload: jsonToken.token });
+      navigate('TrackList');
+    } else {
+      console.log('kkkkkkkkkkkk')
+      navigate('Auth');
+    }
+  } catch(e) {
+    dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Local Login' })
   }
 }
 
@@ -64,18 +85,23 @@ const signin = dispatch => async userInputs => {
     navigate('TrackList');
   } catch(e) {
     dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signin'});
-    throw new Error(e.response.data);
+    // throw new Error(e.response.data);
   }
 }
 
-const signout = dispatch => {
-  return () => {
-    console.log('sign out');
-  };
-}
+const signout = dispatch => async () => {
+    try {
+      await SecureStore.deleteItemAsync(SECURE_STORE_KEY);
+      dispatch({ type: 'SIGN_OUT' });
+      navigate('Auth');
+    } catch(e) {
+      dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signout'});
+    }  
+};
+
 
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signup, signin, signout, clearErrorMessage },
+  { signup, signin, signout, clearErrorMessage, tryLocalSignIn },
   { token: null, errorMessage: '' }
 );

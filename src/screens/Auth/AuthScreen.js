@@ -1,13 +1,14 @@
-import React, { Fragment, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import styled from 'styled-components';
 import { 
     widthPercentageToDP as wp, heightPercentageToDP as hp, listenOrientationChange 
 } from 'react-native-responsive-screen';
 import { Formik } from 'formik';
 import { LinearGradient } from 'expo-linear-gradient';
+// [ INPORTANT ]
 // 2) It is alternative or another way to use navigation.addListener below.
-import { NavigationEvents } from 'react-navigation';
+// import { NavigationEvents } from 'react-navigation';
 
 import useAuth from '../../hooks/stateManager/auth/useAuth';
 import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
@@ -46,6 +47,8 @@ const AuthScreen = ({ navigation }) => {
         clearErrorMessage,
         setIsChecked
     } = useAuth();
+
+    // console.log('reducer state: ', state);
 
     return(
         <AuthContainer>
