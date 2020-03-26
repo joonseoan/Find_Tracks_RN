@@ -30,11 +30,9 @@ const tryLocalSignIn = dispatch => async () => {
     const storedField = await SecureStore.getItemAsync(SECURE_STORE_KEY);
     const jsonToken = JSON.parse(storedField);
     if(jsonToken) {
-      console.log('ddddddddd')
       dispatch({ type: 'LOCAL_LOGIN', payload: jsonToken.token });
       navigate('TrackList');
     } else {
-      console.log('kkkkkkkkkkkk')
       navigate('Auth');
     }
   } catch(e) {

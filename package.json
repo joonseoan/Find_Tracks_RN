@@ -34,7 +34,9 @@
     "react-navigation-stack": "^2.1.1",
     "react-navigation-tabs": "^2.7.0",
     "styled-components": "^4.4.1",
-    "yup": "^0.28.1"
+    "yup": "^0.28.1",
+    "react-native-maps": "0.26.1",
+    "expo-location": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
