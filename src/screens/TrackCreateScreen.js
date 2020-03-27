@@ -1,5 +1,4 @@
 import React from 'react';
-import { View, Text } from 'react-native';
 import styled from 'styled-components';
 import {
     widthPercentageToDP as wp, 
@@ -8,9 +7,11 @@ import {
 import { SafeAreaView } from 'react-navigation';
 
 import Map from '../components/Map';
-
+import trackCreateScreen 
+    from '../hooks/stateManager/trackCreateScreen/trackCreateScreen';
 
 const TrackCreateScreen = props => {
+    const [ error ] = trackCreateScreen();
     return(
         <SafeAreaView forceInset={{ top: 'always' }}>
             <OuterView>
@@ -22,6 +23,10 @@ const TrackCreateScreen = props => {
                 <MapTrackView>
                     <Map />
                 </MapTrackView>
+                <ErrorView>
+                    {/* it is working only in android. ios does return any error message so far. */}
+                    { error && <ErrorText>{ error }</ErrorText> }
+                </ErrorView>
             </OuterView>
         </SafeAreaView>
     )
@@ -57,6 +62,14 @@ const MapTrackView = styled.View`
     overflow: hidden;
     border-width: 2px;
     border-color: red;
+`;
+
+const ErrorView = styled.View`
+    height: ${ hp('2%') };
+`;
+
+const ErrorText = styled.Text`
+    color: red;
 `;
 
 export default TrackCreateScreen;
