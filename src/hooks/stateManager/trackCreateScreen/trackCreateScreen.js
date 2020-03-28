@@ -8,16 +8,20 @@ import {
 const trackCreateScreen = isFocused => {
   
   const [ error, setError ] = useState(null);
+  const [ subscriber, setSubscriber ] = useState(null);
   const { addLocation } = useContext(LocationContext);
 
   const startWatching = async () => {
     try {
+      // every time before tracking start
+      // setup null
+      setError(null);
       // request permission
       await requestPermissionsAsync();
 
       // 2)
       // when we disable the tracking
-      const subscriber = await watchPositionAsync({
+      const sub = await watchPositionAsync({
        // 1)
       // await watchPositionAsync({
         // accuracy option
@@ -37,15 +41,20 @@ const trackCreateScreen = isFocused => {
         // update location every sec even though we setup 10 meter or 1sec.
         // console.log(location)
       });
+      
+      // [ IMPORTANT !!!!!!!!!] THE WAY OF GETTING THE VALUE INSIDE OF LIB
+      // Then, we get this value to useState to control it
+      setSubscriber(sub);
+      
+      // [ INPORTANT !!!!!!!!!!!!!!!!!!]
+      // [ It works at once because it is variable from the child ===> need to move useEffect]
       // disabling tracking the map!
       // it is from "await watchPositionAsync" above
-      console.log('isFocused in context: ', isFocused)
-      if(!isFocused) {
-        console.log('afadfisFocused: ')
-        subscriber.remove();
-      }
-
-      setError(null);
+      // console.log('isFocused in context: ', isFocused)
+      // if(!isFocused) {
+      //   console.log('afadfisFocused: ')
+      //   subscriber.remove();
+      // }
 
     } catch(e) {      
       setError(e.message)
@@ -53,8 +62,21 @@ const trackCreateScreen = isFocused => {
   }
 
   useEffect(()=> {
-    startWatching();
-  }, []);
+
+    if(isFocused) {
+      startWatching();
+    } else {
+      // disabling tracking data abvoe.
+      subscriber.remove();
+      //back to default null value.
+      setSubscriber(null);
+    }
+
+    // [ IMPORTANT]
+  // isFocused can be inside of arrray of useEffect
+  // even though it is props of not props, not state.of react.
+  // It is react-navigation
+  }, [ isFocused ]);
 
   return [ error ];
 }
