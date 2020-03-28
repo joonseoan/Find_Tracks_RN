@@ -4,14 +4,23 @@ import {
     widthPercentageToDP as wp, 
     heightPercentageToDP as hp
 } from 'react-native-responsive-screen';
-import { SafeAreaView } from 'react-navigation';
+
+// withNavigationFocus // return true when this page displayed and return false when this page is away.
+// We can use withNavigatioFocus instead of NavigationEvent, "willBlure" using customized function.
+import { SafeAreaView, NavigationEvents, withNavigationFocus } from 'react-navigation';
 
 import Map from '../components/Map';
 import trackCreateScreen 
     from '../hooks/stateManager/trackCreateScreen/trackCreateScreen';
 
-const TrackCreateScreen = props => {
-    const [ error ] = trackCreateScreen();
+// [ IMPORTANT ]
+// as long as withNavigationFocus wrapps up the component
+// isFocused used as props.
+const TrackCreateScreen = ({ isFocused }) => {
+    console.log("focused: ", isFocused)
+
+    const [ error ] = trackCreateScreen(isFocused);
+
     return(
         <SafeAreaView forceInset={{ top: 'always' }}>
             <OuterView>
@@ -24,9 +33,13 @@ const TrackCreateScreen = props => {
                     <Map />
                 </MapTrackView>
                 <ErrorView>
-                    {/* it is working only in android. ios does return any error message so far. */}
+                    {/* 
+                       it is working only in android. ios does not return any error message so far.
+                       For iOS need to folowup Expo document
+                    */}
                     { error && <ErrorText>{ error }</ErrorText> }
                 </ErrorView>
+                {/* 1)  when we leave this page, the function runs before we arrives at the next page {<NavigationEvents onWillBlur={ () => console.log("leaving") } />} */}
             </OuterView>
         </SafeAreaView>
     )
@@ -50,7 +63,6 @@ const TracKCreateTitleText = styled.Text`
     color: #438899;
     font-size: ${wp('7%')};
     font-weight: 700;
-    
 `; 
 
 const MapTrackView = styled.View`
@@ -62,14 +74,18 @@ const MapTrackView = styled.View`
     overflow: hidden;
     border-width: 2px;
     border-color: red;
+
+    justify-content: center;
 `;
 
 const ErrorView = styled.View`
     height: ${ hp('2%') };
+    align-items: center;
 `;
 
 const ErrorText = styled.Text`
     color: red;
 `;
 
-export default TrackCreateScreen;
+// hoc
+export default withNavigationFocus(TrackCreateScreen);

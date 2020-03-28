@@ -13,6 +13,7 @@ import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import { Provider as AuthProvider } from './src/contexts/authContext/authContext';
+import { Provider as LocationProvider } from './src/contexts/locationContext/locationContext';
 import { setNavigator } from './src/navigationRef';
 
 const switchNavigator = createSwitchNavigator({
@@ -37,13 +38,15 @@ const switchNavigator = createSwitchNavigator({
 const Stack = createAppContainer(switchNavigator);
 const NavRouter = () => {
   return(
-    <AuthProvider>
-      <ApolloProvider client={ client }>
-        <NavigationContainer>
-          <Stack ref={ navigator => setNavigator(navigator) }/>
-        </NavigationContainer>
-      </ApolloProvider>
-    </AuthProvider>
+    <LocationProvider>
+      <AuthProvider>
+        <ApolloProvider client={ client }>
+          <NavigationContainer>
+            <Stack ref={ navigator => setNavigator(navigator) }/>
+          </NavigationContainer>
+        </ApolloProvider>
+      </AuthProvider>
+    </LocationProvider>
   );
 }
 

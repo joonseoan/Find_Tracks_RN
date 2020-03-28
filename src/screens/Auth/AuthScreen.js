@@ -56,13 +56,24 @@ const AuthScreen = ({ navigation }) => {
             {/* NavigationEvents can be displayed at anyplace what so ever. */}
             {/* {<NavigationEvents 
                 // NavigationEvents properties
-                
+                // tabPress ==> when navigation tab pressed
+                // isFocused with withNavigationFocus when the current location is dispayed 
                 // onWillFocus={ () => { console.log('onWillFocus')}} // It will be invoked at anytime it is about to be reached to this screen (Before)
                 // onDidFocus={ () => { console.log('onDidFocus') }} // It will be invoked at anytime it was just reached to this screen (After)
                 // onWillBlur={ () => { console.log('onWillBlur') }} // It will be invoked at anytime the current screen navigate awaty (when we leave)
                 // onDidBlur={ () => { console.log('onWillBlur') }} // Do not remind it.
                 // onWillBlur={ clearErrorMessage }
                 onWillFocus={ () => clearErrorMessage() }
+
+                // In react-navigation doc
+                willFocus - the screen will focus (maybe we can use in JSX) while JSX Rendering
+                didFocus - the screen focused (if there was a transition, the transition completed) --> useEffect after JSX REndering
+                willBlur - the screen will be unfocused Before we get to the next page in JSX
+                didBlur - the screen unfocused (if there was a transition, the transition completed)
+
+                // Do not forget we can use addEventListener as well.
+
+
             />} */}
             <LinearGradient 
                 style={ styles.backgroundLinearGradient }
