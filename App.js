@@ -9,7 +9,7 @@ import client from './src/graphql';
 import LoadingScreen from './src/screens/LoadingScreen';
 import AuthScreen from './src/screens/Auth/AuthScreen';
 import AccountScreen from './src/screens/AccountScreen';
-import TrackCreateScreen from './src/screens/TrackCreateScreen';
+import TrackCreateScreen from './src/screens/TrackCreateScreen/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import { Provider as AuthProvider } from './src/contexts/authContext/authContext';
@@ -36,6 +36,7 @@ const switchNavigator = createSwitchNavigator({
 });
 
 const Stack = createAppContainer(switchNavigator);
+
 const NavRouter = () => {
   return(
     <LocationProvider>

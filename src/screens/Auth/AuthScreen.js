@@ -12,7 +12,8 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import useAuth from '../../hooks/stateManager/auth/useAuth';
 import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
-import SubmitButton from './AuthRenderHandler/SubmitButton';
+import { PageMainButton } from '../../components/common';
+// import SubmitButton from './AuthRenderHandler/SubmitButton';
 import NavLink from '../../components/NavLink';
 
 const AuthScreen = ({ navigation }) => {
@@ -152,12 +153,16 @@ const AuthScreen = ({ navigation }) => {
                                 </AuthStatusChangeEventText>
                             </TouchableOpacity>
                         </AuthStatusChange>} */}
-                            <SubmitButton
+                            <PageMainButton
                                 handleSubmit={ handleSubmit }
                                 isChecked={ isChecked }
                                 isLogin={ isLogin }
                                 buttonShadow={ styles.buttonShadow }
-                            />
+                            >
+                                <AuthText role='#FFFFFF'>
+                                    { isLogin ? 'Login' : 'Impact on future' }
+                                </AuthText>
+                            </PageMainButton>
                     </NoLinearGradient>
                 </Fragment>
             )}}
@@ -250,7 +255,6 @@ const AuthText = styled.Text`
     color: ${ props => !props.role ? '#483D8B' : props.role };
     text-transform: uppercase;
 `;
-
 
 // Removing heasers
 // 2)

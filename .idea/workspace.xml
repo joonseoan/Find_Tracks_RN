@@ -9,10 +9,14 @@
     <list default="true" id="915f0a01-4a29-4640-a20e-26906766b93d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/_mock_location.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/_mock_location.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Map.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/common/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/locationContext/locationContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/locationContext/locationContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hooks/stateManager/trackCreateScreen/trackCreateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/stateManager/trackCreateScreen/trackCreateScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackCreateScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/AuthRenderHandler/AuthInputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/AuthRenderHandler/AuthInputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/AuthRenderHandler/SubmitButton.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/AuthScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/AuthScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen.js" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +31,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="C:/for_myEffect/mobile_nav/myeffect-app-3.0" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />

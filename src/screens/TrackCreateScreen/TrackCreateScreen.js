@@ -9,20 +9,28 @@ import {
 // We can use withNavigatioFocus instead of NavigationEvent, "willBlure" using customized function.
 import { SafeAreaView, NavigationEvents, withNavigationFocus } from 'react-navigation';
 
-import Map from '../components/Map';
+import Map from '../../components/Map';
 import trackCreateScreen 
-    from '../hooks/stateManager/trackCreateScreen/trackCreateScreen';
+    from '../../hooks/stateManager/trackCreateScreen/trackCreateScreen';
+
+import TrackCreateScreenInputs from './TrackCreateScreenRenderHandler/TrackCreateScreenInputs';
 
 // [ IMPORTANT ]
 // as long as withNavigationFocus wrapps up the component
 // isFocused used as props.
 const TrackCreateScreen = ({ isFocused }) => {
-    console.log("focused: ", isFocused)
-
-    const [ error ] = trackCreateScreen(isFocused);
+    
+    const [ 
+        error, 
+        state, 
+        addLocation, 
+        startRecording, 
+        stopRecording, 
+        changeName,
+     ] = trackCreateScreen(isFocused);
 
     return(
-        <SafeAreaView forceInset={{ top: 'always' }}>
+        <SafeAreaView forceInset={{ top: 'always' }} style={{ flex: 1 }}>
             <OuterView>
                 <TracKCreateTitleView>
                     <TracKCreateTitleText>
@@ -40,6 +48,16 @@ const TrackCreateScreen = ({ isFocused }) => {
                     { error && <ErrorText>{ error }</ErrorText> }
                 </ErrorView>
                 {/* 1)  when we leave this page, the function runs before we arrives at the next page {<NavigationEvents onWillBlur={ () => console.log("leaving") } />} */}
+                <TrackFormView>
+                    <TrackCreateScreenInputs  
+                        startRecording={ startRecording }
+                        stopRecording={ stopRecording }
+                        changeName={ changeName }
+                        recording={ state.recording }
+                        name={ state.name }
+                        locations={ state.locations }
+                    />
+                </TrackFormView>
             </OuterView>
         </SafeAreaView>
     )
@@ -47,8 +65,7 @@ const TrackCreateScreen = ({ isFocused }) => {
 
 const OuterView = styled.View`
     flex: 1;
-    border-width: 2px;
-    border-color: blue;
+    align-items: center;
 `;
 
 const TracKCreateTitleView = styled.View`
@@ -56,6 +73,7 @@ const TracKCreateTitleView = styled.View`
     height: ${ hp('15%') };
 
     margin-left: ${ wp('2%') };
+    align-self: flex-start;
     justify-content: center;
 `;
 
@@ -85,6 +103,14 @@ const ErrorView = styled.View`
 
 const ErrorText = styled.Text`
     color: red;
+`;
+
+const TrackFormView = styled.View`
+    height: ${ hp('30%') };
+    width: ${ wp('85%') };
+
+    align-items: center;
+    justify-content: space-around;
 `;
 
 // hoc

@@ -64,5 +64,4 @@ const ValidationError = styled.Text`
     display: ${props =>  props.isCheckBox === 'ageCheck' ? 'none' : 'flex' };
 `;
 
-
 export default AuthInputs;

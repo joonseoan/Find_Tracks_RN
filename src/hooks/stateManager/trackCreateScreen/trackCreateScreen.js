@@ -9,7 +9,11 @@ const trackCreateScreen = isFocused => {
   
   const [ error, setError ] = useState(null);
   const [ subscriber, setSubscriber ] = useState(null);
-  const { addLocation } = useContext(LocationContext);
+
+  const { 
+    state, addLocation, startRecording, 
+    stopRecording, changeName 
+  } = useContext(LocationContext);
 
   const startWatching = async () => {
     try {
@@ -78,7 +82,14 @@ const trackCreateScreen = isFocused => {
   // It is react-navigation
   }, [ isFocused ]);
 
-  return [ error ];
+  return [ 
+    error, 
+    state, 
+    addLocation, 
+    startRecording, 
+    stopRecording, 
+    changeName
+  ];
 }
 
 export default trackCreateScreen;
