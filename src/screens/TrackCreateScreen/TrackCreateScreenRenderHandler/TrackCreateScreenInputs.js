@@ -30,7 +30,7 @@ const TrackCreateScreenInputs = ({
         handleSubmit={ !recording ? startRecording : stopRecording }
       >
         <RecordingButtonText>
-           { !recording ? "Start Record" : "Stop Record" }
+           { !recording ? "Start Record" : "Stop" }
         </RecordingButtonText>  
       </PageMainButton>
     </>

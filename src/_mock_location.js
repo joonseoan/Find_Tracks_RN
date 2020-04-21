@@ -21,7 +21,6 @@ import * as Location from 'expo-location';
 
 // const add = getPosition()
 //   .then(ddd => {
-//     console.log('ddddd: ',ddd)
 //     return ddd;
 //   })
 

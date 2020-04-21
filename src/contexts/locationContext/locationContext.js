@@ -31,9 +31,10 @@ const stopRecording = dispatch => () => {
 
 // "recording:" get another state from the components, not directly from the state value
 const addLocation = dispatch => (location, recording) => {
-  console.log('adbdedef')
   dispatch({ type: 'ADD_CURRENT_LOCATION', payload: location });
+
   // location: only from the moment of "recording is true"
+  // [IMPORTANT] : we can update two or more than two reducers at the same time.
   if(recording) {
     dispatch({ type: 'ADD_LOCATION', payload: location });
   }
@@ -44,4 +45,3 @@ export const { Context, Provider } = createDataContext(
   { startRecording, stopRecording, addLocation, changeName },
   { name: '', recording: false, locations: [], currentLocation: null }
 );
-

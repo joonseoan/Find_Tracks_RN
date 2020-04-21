@@ -49,10 +49,9 @@ const AuthScreen = ({ navigation }) => {
         setIsChecked
     } = useAuth();
 
-    // console.log('reducer state: ', state);
-
     return(
         <AuthContainer>
+            {/* 2) better way than the one above in useEffect */}
             {/* NOT WORKING IN THE SAME PAGE. */}
             {/* NavigationEvents can be displayed at anyplace what so ever. */}
             {/* {<NavigationEvents 
@@ -73,9 +72,8 @@ const AuthScreen = ({ navigation }) => {
                 didBlur - the screen unfocused (if there was a transition, the transition completed)
 
                 // Do not forget we can use addEventListener as well.
-
-
             />} */}
+            
             <LinearGradient 
                 style={ styles.backgroundLinearGradient }
                 colors={[ '#FFFFFF', '#7FFFD4', '#F0F8FF', '#00FFFF' ]}

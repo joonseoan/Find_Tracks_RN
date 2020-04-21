@@ -17,9 +17,9 @@ import { Provider as LocationProvider } from './src/contexts/locationContext/loc
 import { setNavigator } from './src/navigationRef';
 
 const switchNavigator = createSwitchNavigator({
-  PageLoading: LoadingScreen, 
+  // First Page
+  PageLoading: LoadingScreen,
   authFlow: createStackNavigator({
-    // First Page
     Auth: AuthScreen,
   }),
   mainFlow: createBottomTabNavigator({
@@ -32,7 +32,6 @@ const switchNavigator = createSwitchNavigator({
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen
   })
-
 });
 
 const Stack = createAppContainer(switchNavigator);
@@ -43,7 +42,10 @@ const NavRouter = () => {
       <AuthProvider>
         <ApolloProvider client={ client }>
           <NavigationContainer>
-            <Stack ref={ navigator => setNavigator(navigator) }/>
+            <Stack ref={ navigator => {
+              // [ All Navigation methods ] 
+              // console.log('navigator: ====> ', navigator)
+              return setNavigator(navigator) }}/>
           </NavigationContainer>
         </ApolloProvider>
       </AuthProvider>

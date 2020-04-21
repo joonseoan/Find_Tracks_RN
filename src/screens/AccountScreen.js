@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
-import { View, Text, Button } from 'react-native';
-import styled from 'styled-components';
+import { Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} 
- from 'react-native-responsive-screen';
-
 import { Context as AuthContext } from '../contexts/authContext/authContext';
+
 const AccountScreen = props => {
 
     const { signout } = useContext(AuthContext);
@@ -17,8 +14,7 @@ const AccountScreen = props => {
                 title="Sign Out"
                 onPress={ signout } 
             />    
-        </SafeAreaView>
-        
+        </SafeAreaView>        
     )
 }
 

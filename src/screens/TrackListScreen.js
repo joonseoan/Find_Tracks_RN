@@ -1,8 +1,5 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
-// import styled from 'styled-components';
-// import {widthPercentageToDP as wp, heightPercentageToDP as hp} 
-//  from 'react-native-responsive-screen';
 
 const TrackListScreen = ({ navigation }) => {
     return(

@@ -7,13 +7,14 @@ import {
 
 const trackCreateScreen = isFocused => {
   
-  const [ error, setError ] = useState(null);
-  const [ subscriber, setSubscriber ] = useState(null);
-
   const { 
     state, addLocation, startRecording, 
     stopRecording, changeName 
   } = useContext(LocationContext);
+
+  const [ error, setError ] = useState(null);
+  const [ subscriber, setSubscriber ] = useState(null);
+
 
   const startWatching = async () => {
     try {
@@ -26,7 +27,7 @@ const trackCreateScreen = isFocused => {
       // 2)
       // when we disable the tracking
       const sub = await watchPositionAsync({
-       // 1)
+      // 1)
       // await watchPositionAsync({
         // accuracy option
         accuracy: Accuracy.BestForNavigation,
@@ -37,7 +38,7 @@ const trackCreateScreen = isFocused => {
 
         // "location" is from initial value from "watchPositionAsync" of "expo-location"
         // keep adding locations from the current location
-        addLocation(location);
+        addLocation(location, state.recording);
 
         // For testing with "_mock_location.js"
         // [ IMPORTANT : WE CAN PRINT OUT THE MOCK UP TEST HERE
@@ -48,6 +49,7 @@ const trackCreateScreen = isFocused => {
       
       // [ IMPORTANT !!!!!!!!!] THE WAY OF GETTING THE VALUE INSIDE OF LIB
       // Then, we get this value to useState to control it
+      // console.log('sub: ', sub) // only remove method.
       setSubscriber(sub);
       
       // [ INPORTANT !!!!!!!!!!!!!!!!!!]
@@ -68,9 +70,11 @@ const trackCreateScreen = isFocused => {
   useEffect(()=> {
 
     if(isFocused) {
+      // whenever isFocused, start from the current user position
       startWatching();
     } else {
       // disabling tracking data abvoe.
+      // subscriber only includes "remove()" methods.
       subscriber.remove();
       //back to default null value.
       setSubscriber(null);
@@ -80,16 +84,16 @@ const trackCreateScreen = isFocused => {
   // isFocused can be inside of arrray of useEffect
   // even though it is props of not props, not state.of react.
   // It is react-navigation
-  }, [ isFocused ]);
+  }, [ isFocused, state.recording ]);
 
-  return [ 
+  return {
     error, 
     state, 
     addLocation, 
     startRecording, 
     stopRecording, 
     changeName
-  ];
+  };
 }
 
 export default trackCreateScreen;

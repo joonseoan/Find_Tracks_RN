@@ -20,21 +20,21 @@ import TrackCreateScreenInputs from './TrackCreateScreenRenderHandler/TrackCreat
 // isFocused used as props.
 const TrackCreateScreen = ({ isFocused }) => {
     
-    const [ 
+    const { 
         error, 
-        state, 
-        addLocation, 
+        state: { recording, name, locations },
         startRecording, 
         stopRecording, 
         changeName,
-     ] = trackCreateScreen(isFocused);
+     } = trackCreateScreen(isFocused);
 
+     console.log('locations: ', locations.length)
     return(
         <SafeAreaView forceInset={{ top: 'always' }} style={{ flex: 1 }}>
             <OuterView>
                 <TracKCreateTitleView>
                     <TracKCreateTitleText>
-                        TrackCreateScreen
+                        Create a Track
                     </TracKCreateTitleText>
                 </TracKCreateTitleView>
                 <MapTrackView>
@@ -53,9 +53,9 @@ const TrackCreateScreen = ({ isFocused }) => {
                         startRecording={ startRecording }
                         stopRecording={ stopRecording }
                         changeName={ changeName }
-                        recording={ state.recording }
-                        name={ state.name }
-                        locations={ state.locations }
+                        recording={ recording }
+                        name={ name }
+                        locations={ locations }
                     />
                 </TrackFormView>
             </OuterView>

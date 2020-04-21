@@ -15,7 +15,7 @@ const Map = () => {
 
   const [ currentLocation ] = map();
 
-  if(!currentLocation) {
+  if(!currentLocation || !currentLocation.coords) {
     return <IndicatorObject 
       size="large"
     />
@@ -47,13 +47,15 @@ const Map = () => {
         // only for testing
         // latitude: 37.332333,
         // longitude: -122.03121,
+
         // // Zoom Level
         // when the number is smaller, the map gets larger area
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
       }}
-      // Without Region map does not updated but circle will be updated
+      // Without Region map does not updated but circle itself will be updated and moved
       // Better not use region
+      
       region={{
         ...currentLocation.coords,
         latitudeDelta: 0.01,

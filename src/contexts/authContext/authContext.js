@@ -31,11 +31,10 @@ const tryLocalSignIn = dispatch => async () => {
     const jsonToken = JSON.parse(storedField);
     if(jsonToken) {
       dispatch({ type: 'LOCAL_LOGIN', payload: jsonToken.token });
-      // navigate('Auth');
       navigate('TrackList');
     } else {
+      // for development
       navigate('TrackList');
-
       // navigate('Auth');
     }
   } catch(e) {
@@ -99,7 +98,6 @@ const signout = dispatch => async () => {
       dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signout'});
     }  
 };
-
 
 export const { Provider, Context } = createDataContext(
   authReducer,

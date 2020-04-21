@@ -35,5 +35,4 @@ export default class User {
             token: this.token
         }
     }
-
  }
