@@ -5,8 +5,8 @@ import {
 } from '../../../contexts/locationContext/locationContext';
 
 const map = () => {
-  const { state: { currentLocation } } = useContext(LocationContext);
-  return [ currentLocation ];
+  const { state: { currentLocation, locations } } = useContext(LocationContext);
+  return [ currentLocation, locations ];
 };
 
 export default map;

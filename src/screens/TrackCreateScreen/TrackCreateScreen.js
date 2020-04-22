@@ -26,7 +26,8 @@ const TrackCreateScreen = ({ isFocused }) => {
         startRecording, 
         stopRecording, 
         changeName,
-     } = trackCreateScreen(isFocused);
+        // "recording" : to keep recording when isFocused is "false"!!!
+     } = trackCreateScreen(isFocused || recording);
 
      console.log('locations: ', locations.length)
     return(

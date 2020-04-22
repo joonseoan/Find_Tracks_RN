@@ -3,17 +3,13 @@ import { StyleSheet, ActivityIndicator } from 'react-native';
 // Polyline: tracking the path
 // Circle: position
 import MapView, { Polyline, Circle } from 'react-native-maps';
-import { 
-  widthPercentageToDP as wp, 
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import styled from 'styled-components';
 
 import map from '../hooks/stateManager/map/map';
 
 const Map = () => {
 
-  const [ currentLocation ] = map();
+  const [ currentLocation, locations ] = map();
 
   if(!currentLocation || !currentLocation.coords) {
     return <IndicatorObject 
@@ -72,7 +68,10 @@ const Map = () => {
         fillColor="rgba(158, 158, 255, 0.3)"
       />
       {/* Tracking line */}
-      {/* {<Polyline coordinates={ points }/>} */}
+      <Polyline 
+        // only need coords field value.
+        coordinates={ locations.map(location => location.coords) }
+      />
     </MapView>
   )
 }
