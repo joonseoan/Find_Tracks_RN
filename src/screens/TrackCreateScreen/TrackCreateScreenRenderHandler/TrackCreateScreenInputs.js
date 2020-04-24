@@ -11,7 +11,8 @@ const TrackCreateScreenInputs = ({
   changeName,
   recording,
   locations,
-  name
+  name,
+  saveTracks
 }) => {
 
   return(
@@ -33,6 +34,22 @@ const TrackCreateScreenInputs = ({
            { !recording ? "Start Record" : "Stop" }
         </RecordingButtonText>  
       </PageMainButton>
+
+      {
+        // Remind again. Because of React Native Text attributes.
+        // some null value must be returned!
+       (!recording && locations.length) ? (
+          <PageMainButton save
+            isChecked={ true }
+            handleSubmit={ saveTracks }
+          >
+            <RecordingButtonText>
+              Save Recording
+            </RecordingButtonText>   
+          </PageMainButton>
+        ) :
+        null
+      }
     </>
   )
 }

@@ -29,13 +29,14 @@ const tryLocalSignIn = dispatch => async () => {
   try {
     const storedField = await SecureStore.getItemAsync(SECURE_STORE_KEY);
     const jsonToken = JSON.parse(storedField);
+    
     if(jsonToken) {
       dispatch({ type: 'LOCAL_LOGIN', payload: jsonToken.token });
       navigate('TrackList');
     } else {
       // for development
-      navigate('TrackList');
-      // navigate('Auth');
+      // navigate('TrackList');
+      navigate('Auth');
     }
   } catch(e) {
     dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Local Login' })

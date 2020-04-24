@@ -5,7 +5,8 @@ import {
   Context as LocationContext 
 } from '../../../contexts/locationContext/locationContext';
 
-const trackCreateScreen = isFocused => {  
+const trackCreateScreen = isFocused => { 
+  
   const { 
     state, addLocation, startRecording, 
     stopRecording, changeName 
@@ -13,8 +14,8 @@ const trackCreateScreen = isFocused => {
 
   const [ error, setError ] = useState(null);
 
-  // Before startWatching going inside useEffect
-  // Do not need to be defined as "startWatching is going inside of useEffect"
+  // It is before startWatching going inside useEffect
+  // Do not need to be defined since "startWatching is going inside of useEffect"
   // const [ subscriber, setSubscriber ] = useState(null);
 
   // const startWatching = async () => {
@@ -79,6 +80,7 @@ const trackCreateScreen = isFocused => {
     // They should be written inside of useEffect function and then watched in the array.
     // Do Not call outside helper function here in useEffect!
     let subscriber;
+    const { recording } = state;
     // start watching comming inside because "state.recording" should be watched in the array
     const startWatching = async () => {
       try {
@@ -90,15 +92,19 @@ const trackCreateScreen = isFocused => {
           timeInterval: 1000,
           distanceInterval: 10,
         }, location => {
-          addLocation(location, state.recording);
+          addLocation(location, recording);
         });
+
+        if(!subscriber) {
+          throw new Error('Unable to get subscriber method.');
+        }
   
       } catch(e) {      
         setError(e.message)
       }
     }    
 
-    if(isFocused) {
+    if(isFocused || recording) {
       // whenever isFocused, start from the current user position
       (async () => {
         await startWatching();

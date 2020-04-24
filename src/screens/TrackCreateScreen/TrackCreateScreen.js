@@ -10,9 +10,9 @@ import {
 import { SafeAreaView, NavigationEvents, withNavigationFocus } from 'react-navigation';
 
 import Map from '../../components/Map';
-import trackCreateScreen 
-    from '../../hooks/stateManager/trackCreateScreen/trackCreateScreen';
-
+import useTrackCreateScreen 
+    from '../../hooks/stateManager/trackCreateScreen/useTrackCreateScreen';
+import useSaveTracks from '../../hooks/contextInteract/useSaveTrack';
 import TrackCreateScreenInputs from './TrackCreateScreenRenderHandler/TrackCreateScreenInputs';
 
 // [ IMPORTANT ]
@@ -27,10 +27,11 @@ const TrackCreateScreen = ({ isFocused }) => {
         stopRecording, 
         changeName,
         // "recording" : to keep recording when isFocused is "false"!!!
-     } = trackCreateScreen(isFocused || recording);
+     } = useTrackCreateScreen(isFocused);
 
-     console.log('locations: ', locations.length)
-    return(
+     const [ saveTracks ] = useSaveTracks();
+
+     return(
         <SafeAreaView forceInset={{ top: 'always' }} style={{ flex: 1 }}>
             <OuterView>
                 <TracKCreateTitleView>
@@ -57,6 +58,7 @@ const TrackCreateScreen = ({ isFocused }) => {
                         recording={ recording }
                         name={ name }
                         locations={ locations }
+                        saveTracks={ saveTracks }
                     />
                 </TrackFormView>
             </OuterView>

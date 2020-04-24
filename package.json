@@ -14,8 +14,10 @@
     "apollo-client": "^2.6.8",
     "apollo-link-context": "^1.0.19",
     "apollo-link-http": "^1.5.16",
+    "axios": "^0.19.2",
     "expo": "~36.0.0",
     "expo-linear-gradient": "^8.0.0",
+    "expo-location": "~8.0.0",
     "expo-secure-store": "~8.0.0",
     "formik": "^2.1.4",
     "graphql": "^14.6.0",
@@ -25,6 +27,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-gesture-handler": "^1.5.6",
+    "react-native-maps": "0.26.1",
     "react-native-reanimated": "^1.4.0",
     "react-native-responsive-screen": "^1.4.0",
     "react-native-safe-area-context": "^0.6.0",
@@ -34,9 +37,7 @@
     "react-navigation-stack": "^2.1.1",
     "react-navigation-tabs": "^2.7.0",
     "styled-components": "^4.4.1",
-    "yup": "^0.28.1",
-    "react-native-maps": "0.26.1",
-    "expo-location": "~8.0.0"
+    "yup": "^0.28.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

@@ -4,12 +4,15 @@ import {
   widthPercentageToDP as wp, heightPercentageToDP as hp 
 } from 'react-native-responsive-screen';
 
-const PageMainButton = ({ handleSubmit, isChecked, 
-  isLogin, buttonShadow, children 
+const PageMainButton = ({ 
+  handleSubmit, isChecked, 
+  isLogin, buttonShadow, children,
+  save
 }) => {
 
   return (
-      <PageMainButtonTouchableOpacity 
+      <PageMainButtonTouchableOpacity
+          save={ save || null }
           isChecked={ isChecked }
           isLogin={ isLogin } 
           style={ buttonShadow }
@@ -24,7 +27,7 @@ const PageMainButtonTouchableOpacity = styled.TouchableOpacity`
     width: ${ wp('70%') };    
     height: ${ hp('5%') };
     display: ${ props => (!props.isLogin && !props.isChecked) ? 'none' : 'flex' };
-    background-color: #00BFFF;
+    background-color: ${ props => !props.save ? '#00BFFF' : '#ffb6c1'};
     border-radius: 10px;
     align-items: center;
     justify-content: center;
@@ -32,5 +35,3 @@ const PageMainButtonTouchableOpacity = styled.TouchableOpacity`
 `;
     
 export { PageMainButton };
-    // border-width: 10px;
-    // border-color: blue;
