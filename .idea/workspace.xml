@@ -8,15 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="915f0a01-4a29-4640-a20e-26906766b93d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/common/Button/PageMainButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/common/Button/PageMainButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/graphql/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/stateManager/trackCreateScreen/trackCreateScreen.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/trackContext/trackContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/trackContext/trackContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreenRenderHandler/TrackCreateScreenInputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreenRenderHandler/TrackCreateScreenInputs.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
