@@ -13,14 +13,15 @@ const fetchTracks = dispatch => () => {};
 const createTracks = dispatch => async (name, locationList) => {
   try {
 
-    const locations = locationList.map(location => {
-      
+    const locations = locationList.map(location => {  
       const { 
         accuracy, altitude, heading, 
         latitude, longitude, speed, 
         altitudeAccuracy 
       } = location.coords;
-      
+
+      console.log(typeof location.timestamp)
+      const num = 1000000;  
       return { 
         coords: { 
           accuracy,
@@ -31,14 +32,15 @@ const createTracks = dispatch => async (name, locationList) => {
           speed,
           altitudeAccuracy
         },
-        timestamp: location.timestamp
+        // timestamp: location.timestamp.toString()
+        timestamp: "1000000"
       }
     });
     
     console.log('locations: ', locations)
     const { data } = await apolloClient.mutate({
       mutation: createTrack,
-      variables: {  name, locations }
+      variables: { data: { name, locations }}
     })
 
     console.log('data: ', data)
@@ -46,9 +48,6 @@ const createTracks = dispatch => async (name, locationList) => {
   } catch(e) {
     throw new Error(e)
   }
-  console.log('name: ', name)
-  console.log('locations: ', locations)
-
 };
 
 

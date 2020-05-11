@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import { SECURE_STORE_KEY } from 'react-native-dotenv'; 
 
 const httpLink = createHttpLink({
-  uri: 'http://192.168.0.103:4500/graphql',
+  uri: 'http://192.168.0.105:4500/graphql',
 });
 
 const authLink = setContext(async (_, { headers }) => {
