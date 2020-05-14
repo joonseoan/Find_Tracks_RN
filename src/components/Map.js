@@ -32,7 +32,7 @@ const Map = () => {
   //     })
   //   }
   // }
-  // console.log(points)
+
   // very similar Image that has height and width
   
   return (

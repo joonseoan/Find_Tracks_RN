@@ -13,7 +13,7 @@ const authLink = setContext(async (_, { headers }) => {
   const storedField = await SecureStore.getItemAsync(SECURE_STORE_KEY);
   const jsonToken = JSON.parse(storedField);
   const token = jsonToken ? jsonToken.token : null;
-  console.log('token: ', token)
+
   return {
     headers: {
       ...headers,

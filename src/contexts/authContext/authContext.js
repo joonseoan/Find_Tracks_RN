@@ -2,8 +2,8 @@ import * as SecureStore from 'expo-secure-store';
 import { SECURE_STORE_KEY } from 'react-native-dotenv'; 
 import createDataContext from '../createDataContext';
 import apolloClient from '../../graphql';
-import userSignup from '../../graphql/mutations/userSignup';
-import userSignin from '../../graphql/mutations/userSignin';
+import user_signup from '../../graphql/mutations/userSignup';
+import user_signin from '../../graphql/mutations/userSignin';
 import { navigate } from '../../navigationRef';
 
 const authReducer = (state, action) => {
@@ -27,15 +27,17 @@ const authReducer = (state, action) => {
 
 const tryLocalSignIn = dispatch => async () => {
   try {
+    
+    // Development Logout
+    // await SecureStore.deleteItemAsync(SECURE_STORE_KEY);
+    // await apolloClient.resetStore();
+
     const storedField = await SecureStore.getItemAsync(SECURE_STORE_KEY);
     const jsonToken = JSON.parse(storedField);
-    
     if(jsonToken) {
       dispatch({ type: 'LOCAL_LOGIN', payload: jsonToken.token });
       navigate('TrackList');
     } else {
-      // for development
-      // navigate('TrackList');
       navigate('Auth');
     }
   } catch(e) {
@@ -50,7 +52,7 @@ const clearErrorMessage = dispatch => () => {
 const signup = dispatch => async userInputs => {
   try {
     const { data } = await apolloClient.mutate({
-      mutation: userSignup,
+      mutation: user_signup,
       variables: userInputs
     })
 
@@ -71,7 +73,7 @@ const signup = dispatch => async userInputs => {
 const signin = dispatch => async userInputs => {
   try {
     const { data } = await apolloClient.mutate({
-      mutation: userSignin,
+      mutation: user_signin,
       variables: userInputs
     })
 
@@ -85,18 +87,18 @@ const signin = dispatch => async userInputs => {
     dispatch({ type: 'SIGNIN', payload: data.loginUser });
     navigate('TrackList');
   } catch(e) {
-    dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signin'});
-    // throw new Error(e.response.data);
+    dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signin' });
   }
 }
 
 const signout = dispatch => async () => {
     try {
       await SecureStore.deleteItemAsync(SECURE_STORE_KEY);
+      await apolloClient.resetStore();
       dispatch({ type: 'SIGN_OUT' });
       navigate('Auth');
     } catch(e) {
-      dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signout'});
+      dispatch({ type: 'ADD_ERROR_MESSAGE', payload: 'Something is wrong with Signout' });
     }  
 };
 

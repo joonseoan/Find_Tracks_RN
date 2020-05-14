@@ -7,8 +7,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="915f0a01-4a29-4640-a20e-26906766b93d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/_mock_location.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/_mock_location.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/authContext/authContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/contexts/locationContext/locationContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/locationContext/locationContext.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/contexts/trackContext/trackContext.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/contexts/trackContext/trackContext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/graphql/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/graphql/mutations/trackCreate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/graphql/mutations/trackCreate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/contextInteract/useSaveTrack.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/contextInteract/useSaveTrack.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/stateManager/trackCreateScreen/useTrackCreateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/stateManager/trackCreateScreen/useTrackCreateScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AccountScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AccountScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/Auth/AuthScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/Auth/AuthScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreenRenderHandler/TrackCreateScreenInputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackCreateScreen/TrackCreateScreenRenderHandler/TrackCreateScreenInputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TrackDetailScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackDetailScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TrackListScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TrackListScreen.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

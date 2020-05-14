@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export default gql`
   mutation CreateTrack($data: createTrackInput!) {
-          createTrack(data: $data) {
+    createTrack(data: $data) {
       id
       name
       user {

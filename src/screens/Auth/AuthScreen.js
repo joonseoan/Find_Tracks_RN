@@ -13,7 +13,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import useAuth from '../../hooks/stateManager/auth/useAuth';
 import AuthRenderHandler from './AuthRenderHandler/AuthInputs';
 import { PageMainButton } from '../../components/common';
-// import SubmitButton from './AuthRenderHandler/SubmitButton';
 import NavLink from '../../components/NavLink';
 
 const AuthScreen = ({ navigation }) => {

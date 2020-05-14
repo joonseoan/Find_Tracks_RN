@@ -8,6 +8,7 @@ import {
 // withNavigationFocus // return true when this page displayed and return false when this page is away.
 // We can use withNavigatioFocus instead of NavigationEvent, "willBlure" using customized function.
 import { SafeAreaView, NavigationEvents, withNavigationFocus } from 'react-navigation';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Map from '../../components/Map';
 import useTrackCreateScreen 
@@ -18,7 +19,7 @@ import TrackCreateScreenInputs from './TrackCreateScreenRenderHandler/TrackCreat
 // [ IMPORTANT ]
 // as long as withNavigationFocus wrapps up the component
 // isFocused used as props.
-const TrackCreateScreen = ({ isFocused }) => {
+const TrackCreateScreen = ({ isFocused, navigation }) => {
     
     const { 
         error, 
@@ -26,6 +27,7 @@ const TrackCreateScreen = ({ isFocused }) => {
         startRecording, 
         stopRecording, 
         changeName,
+        reset
         // "recording" : to keep recording when isFocused is "false"!!!
      } = useTrackCreateScreen(isFocused);
 
@@ -59,12 +61,20 @@ const TrackCreateScreen = ({ isFocused }) => {
                         recording={ recording }
                         name={ name }
                         locations={ locations }
+                        navigation={ navigation }
+                        reset={ reset }
+
                         saveTracks={ saveTracks }
                     />
                 </TrackFormView>
             </OuterView>
         </SafeAreaView>
     )
+}
+
+TrackCreateScreen.navigationOptions = {
+    title: 'Create Track',
+    tabBarIcon: <FontAwesome name="plus" size={ 20 } />
 }
 
 const OuterView = styled.View`
@@ -117,5 +127,4 @@ const TrackFormView = styled.View`
     justify-content: space-around;
 `;
 
-// hoc
 export default withNavigationFocus(TrackCreateScreen);

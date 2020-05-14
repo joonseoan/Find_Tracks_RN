@@ -16,6 +16,18 @@ import { Provider as AuthProvider } from './src/contexts/authContext/authContext
 import { Provider as LocationProvider } from './src/contexts/locationContext/locationContext';
 import { Provider as TrackProvider } from './src/contexts/trackContext/trackContext';
 import { setNavigator } from './src/navigationRef';
+import { FontAwesome } from '@expo/vector-icons';
+
+const trackListFlow = createStackNavigator({
+  // First Page
+  TrackList: TrackListScreen,
+  TrackDetail: TrackDetailScreen
+});
+
+trackListFlow.navigationOptions = {
+  title: 'Track',
+  tabBarIcon: <FontAwesome name="th-list" size={ 20 } />
+}
 
 const switchNavigator = createSwitchNavigator({
   // First Page
@@ -25,11 +37,7 @@ const switchNavigator = createSwitchNavigator({
   }),
   mainFlow: createBottomTabNavigator({
     // First Button at the BottomNavigation
-    trackListFlow: createStackNavigator({
-      // First Page
-      TrackList: TrackListScreen,
-      TrackDetail: TrackDetailScreen
-    }),
+    trackListFlow,
     TrackCreate: TrackCreateScreen,
     Account: AccountScreen
   })
@@ -45,8 +53,6 @@ const NavRouter = () => {
           <ApolloProvider client={ client }>
             <NavigationContainer>
               <Stack ref={ navigator => {
-                // [ All Navigation methods ] 
-                // console.log('navigator: ====> ', navigator)
                 return setNavigator(navigator) }}/>
             </NavigationContainer>
           </ApolloProvider>

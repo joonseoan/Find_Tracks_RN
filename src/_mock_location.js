@@ -24,8 +24,6 @@ import * as Location from 'expo-location';
 //     return ddd;
 //   })
 
-  // console.log('add: ', getPosition)
-
 
 // const abc = (async () => {
 //   return await Location.getCurrentPositionAsync({});
@@ -33,14 +31,12 @@ import * as Location from 'expo-location';
 
 // const ccc = (() => { 
 //   const ddd = abc;
-//   console.log('ddd: ', ddd)
 //   return ddd;
 // })()
 
 
-// console.log('getCurrentPosition:', ccc)
-
 // fake location reading...
+
 const tenMeterWithDegrees = 0.0001;
 const getLocation = increment => {
   return {

@@ -1,5 +1,9 @@
+// [ IMPORTANT ]
+// if we want to get real data of real time current location,
+//  jut comment out
 import '../../../_mock_location';
-import React, { useEffect, useState, useContext } from 'react';
+
+import { useEffect, useState, useContext } from 'react';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 import { 
   Context as LocationContext 
@@ -9,7 +13,7 @@ const trackCreateScreen = isFocused => {
   
   const { 
     state, addLocation, startRecording, 
-    stopRecording, changeName 
+    stopRecording, changeName, reset 
   } = useContext(LocationContext);
 
   const [ error, setError ] = useState(null);
@@ -84,7 +88,6 @@ const trackCreateScreen = isFocused => {
     // start watching comming inside because "state.recording" should be watched in the array
     const startWatching = async () => {
       try {
-
         setError(null);
         await requestPermissionsAsync();  
         subscriber = await watchPositionAsync({
@@ -92,6 +95,7 @@ const trackCreateScreen = isFocused => {
           timeInterval: 1000,
           distanceInterval: 10,
         }, location => {
+
           addLocation(location, recording);
         });
 
@@ -112,7 +116,7 @@ const trackCreateScreen = isFocused => {
 
     } else {
 
-      // [ONLY WHEN STAY AWAY THIS COMPONENT]
+      // [ONLY WHEN STAY AWAY THIS COMPONENT] === !isFocused && !recording
       // disabling tracking data abvoe.
       // subscriber only includes "remove()" methods.
       if(subscriber) {
@@ -154,11 +158,13 @@ const trackCreateScreen = isFocused => {
     addLocation, 
     startRecording, 
     stopRecording, 
-    changeName
+    changeName,
+    reset
   };
 }
 
 export default trackCreateScreen;
+
 // useCallback!
 // Must review over and over
   /*
@@ -222,4 +228,3 @@ export default trackCreateScreen;
     // That event should not be automatic and iterable event!
     useEffect(() => {}) 
   */
-
